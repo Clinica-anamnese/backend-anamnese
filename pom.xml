@@ -48,7 +48,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>PCE</finalName>
+		<finalName>pce</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

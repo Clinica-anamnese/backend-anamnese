@@ -8,4 +8,4 @@ FROM eclipse-temurin:17-alpine
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/target/pce.jar pce.jar
-CMD ["java", "-jar" "pce.jar"]
+CMD ["java", "-jar", "pce.jar"]
