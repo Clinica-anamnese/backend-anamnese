@@ -28,6 +28,9 @@ public class Usuario {
     
 	@Column(name = "senha", nullable = false)
     private String senha;
+	
+    @Column(name = "adm", nullable = false)
+    private boolean adm;
 
     @Column(name = "ativo", nullable = false)
     private boolean ativo;
