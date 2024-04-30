@@ -1,13 +1,10 @@
 package br.unisantos.pce.model;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,13 +34,5 @@ public class Usuario {
 
 	@Column(name = "ativo", nullable = false)
 	private boolean ativo;
-
-	@Column(name = "criado_em", nullable = false)
-	private LocalDate criadoEm;
-
-	@PrePersist
-	protected void onCreate() {
-		criadoEm = LocalDate.now();
-	}
 
 }

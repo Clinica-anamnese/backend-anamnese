@@ -9,7 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,13 +39,5 @@ public class Paciente {
     @Column(name = "sexo", nullable = false)
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
-
-    @Column(name = "criado_em", nullable = false)
-	private LocalDate criadoEm;
-
-	@PrePersist
-	protected void onCreate() {
-		criadoEm = LocalDate.now();
-	}
 
 }
