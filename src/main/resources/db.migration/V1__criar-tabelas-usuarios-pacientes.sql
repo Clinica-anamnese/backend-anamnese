@@ -12,7 +12,7 @@ CREATE TABLE usuario (
     nome VARCHAR(60) NOT NULL,
     matricula INTEGER NOT NULL UNIQUE,
     senha VARCHAR NOT NULL,
-    adm TINYINT(1) NOT NULL,
+    user_role VARCHAR NOT NULL,
     ativo TINYINT(1) NOT NULL,
     criado_em DATE DEFAULT CURRENT_DATE
 );

@@ -17,32 +17,32 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-import br.unisantos.pce.service.UsuarioService;
+import br.unisantos.pce.service.UserService;
 import br.unisantos.pce.user.User;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value = "/usuarios", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UsuarioController {
+public class UserController {
     
-    private final UsuarioService usuarioService;
+    private final UserService userService;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
 	public ResponseEntity<List<User>> listarUsuarios() {
-		return ResponseEntity.status(200).body(usuarioService.listarUsuarios());
+		return ResponseEntity.status(200).body(userService.listarUsuarios());
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<User>> consultarUsuario (@PathVariable Integer id) {
-		Optional<User> usuarioOptional = usuarioService.consultarUsuario(id);
+		Optional<User> usuarioOptional = userService.consultarUsuario(id);
 
 		if (usuarioOptional.isPresent()) {
-			return ResponseEntity.status(200).body(usuarioService.consultarUsuario(id));
+			return ResponseEntity.status(200).body(userService.consultarUsuario(id));
 		}
 
 		return ResponseEntity.status(404).build();
@@ -50,12 +50,12 @@ public class UsuarioController {
 	
 	@PostMapping
 	public ResponseEntity<User> criarUsuario (@Valid @RequestBody User novoUsuario) {
-		return ResponseEntity.status(201).body(usuarioService.criarUsuario(novoUsuario));
+		return ResponseEntity.status(201).body(userService.criarUsuario(novoUsuario));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<User> alterarUsuario (@PathVariable Integer id, @RequestBody Map<String, Object> atributos) {
-		Optional<User> usuarioOptional = usuarioService.consultarUsuario(id);
+		Optional<User> usuarioOptional = userService.consultarUsuario(id);
 
 		if (usuarioOptional.isPresent()) {
 			User usuario = usuarioOptional.get();
@@ -67,7 +67,7 @@ public class UsuarioController {
 				usuario.setMatricula((int) atributos.get("matricula"));
 			}
 
-			User usuarioAlterado = usuarioService.alterarUsuario(usuario);
+			User usuarioAlterado = userService.alterarUsuario(usuario);
 			return ResponseEntity.status(200).body(usuarioAlterado);
 		}
 
@@ -76,10 +76,10 @@ public class UsuarioController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletarUsuario (@PathVariable Integer id) {
-		Optional<User> usuarioOptional = usuarioService.consultarUsuario(id);
+		Optional<User> usuarioOptional = userService.consultarUsuario(id);
 
 		if (usuarioOptional.isPresent()) {
-			usuarioService.deletarUsuario(id);
+			userService.deletarUsuario(id);
 			return ResponseEntity.status(204).build();
 		}
 
