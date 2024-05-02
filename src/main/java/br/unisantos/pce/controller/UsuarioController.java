@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-
-import br.unisantos.pce.model.Usuario;
 import br.unisantos.pce.service.UsuarioService;
+import br.unisantos.pce.user.User;
 
 @RestController
 @CrossOrigin("*")
@@ -34,13 +33,13 @@ public class UsuarioController {
     }
 
     @GetMapping
-	public ResponseEntity<List<Usuario>> listarUsuarios() {
+	public ResponseEntity<List<User>> listarUsuarios() {
 		return ResponseEntity.status(200).body(usuarioService.listarUsuarios());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Usuario>> consultarUsuario (@PathVariable Integer id) {
-		Optional<Usuario> usuarioOptional = usuarioService.consultarUsuario(id);
+	public ResponseEntity<Optional<User>> consultarUsuario (@PathVariable Integer id) {
+		Optional<User> usuarioOptional = usuarioService.consultarUsuario(id);
 
 		if (usuarioOptional.isPresent()) {
 			return ResponseEntity.status(200).body(usuarioService.consultarUsuario(id));
@@ -50,16 +49,16 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> criarUsuario (@Valid @RequestBody Usuario novoUsuario) {
+	public ResponseEntity<User> criarUsuario (@Valid @RequestBody User novoUsuario) {
 		return ResponseEntity.status(201).body(usuarioService.criarUsuario(novoUsuario));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> alterarUsuario (@PathVariable Integer id, @RequestBody Map<String, Object> atributos) {
-		Optional<Usuario> usuarioOptional = usuarioService.consultarUsuario(id);
+	public ResponseEntity<User> alterarUsuario (@PathVariable Integer id, @RequestBody Map<String, Object> atributos) {
+		Optional<User> usuarioOptional = usuarioService.consultarUsuario(id);
 
 		if (usuarioOptional.isPresent()) {
-			Usuario usuario = usuarioOptional.get();
+			User usuario = usuarioOptional.get();
 
 			if (atributos.containsKey("nome")) {
 				usuario.setNome((String) atributos.get("nome"));
@@ -68,7 +67,7 @@ public class UsuarioController {
 				usuario.setMatricula((int) atributos.get("matricula"));
 			}
 
-			Usuario usuarioAlterado = usuarioService.alterarUsuario(usuario);
+			User usuarioAlterado = usuarioService.alterarUsuario(usuario);
 			return ResponseEntity.status(200).body(usuarioAlterado);
 		}
 
@@ -77,7 +76,7 @@ public class UsuarioController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletarUsuario (@PathVariable Integer id) {
-		Optional<Usuario> usuarioOptional = usuarioService.consultarUsuario(id);
+		Optional<User> usuarioOptional = usuarioService.consultarUsuario(id);
 
 		if (usuarioOptional.isPresent()) {
 			usuarioService.deletarUsuario(id);

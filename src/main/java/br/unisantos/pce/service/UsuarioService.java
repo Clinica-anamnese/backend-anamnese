@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.unisantos.pce.model.Usuario;
 import br.unisantos.pce.repository.UsuarioRepository;
+import br.unisantos.pce.user.User;
 
 @Service
 public class UsuarioService {
@@ -19,20 +19,20 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public List<Usuario> listarUsuarios() {
-		return (List<Usuario>) usuarioRepository.findAll();
+    public List<User> listarUsuarios() {
+		return (List<User>) usuarioRepository.findAll();
 	}
 	
-	public Optional<Usuario> consultarUsuario (Integer id) {
+	public Optional<User> consultarUsuario (Integer id) {
 		return usuarioRepository.findById(id);
 	}
 	
-	public Usuario criarUsuario (Usuario usuario) {
+	public User criarUsuario (User usuario) {
 		usuarioRepository.save(usuario);
 		return usuario;
 	}
 	
-	public Usuario alterarUsuario (Usuario usuario) {
+	public User alterarUsuario (User usuario) {
 		usuarioRepository.save(usuario);
 		return usuario;
 	}

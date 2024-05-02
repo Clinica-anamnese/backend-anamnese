@@ -10,7 +10,7 @@ CREATE TABLE paciente (
 CREATE TABLE usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(60) NOT NULL,
-    matricula INTEGER NOT NULL,
+    matricula INTEGER NOT NULL UNIQUE,
     senha VARCHAR NOT NULL,
     adm TINYINT(1) NOT NULL,
     ativo TINYINT(1) NOT NULL,
