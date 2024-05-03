@@ -64,7 +64,7 @@ public class UserController {
 				usuario.setNome((String) atributos.get("nome"));
 			}
 			if (atributos.containsKey("matricula")) {
-				usuario.setMatricula((int) atributos.get("matricula"));
+				usuario.setLogin((String) atributos.get("matricula"));
 			}
 
 			User usuarioAlterado = userService.alterarUsuario(usuario);

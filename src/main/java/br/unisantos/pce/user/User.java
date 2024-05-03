@@ -14,6 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
+@Table(name = "usuario")
 public class User implements UserDetails {
 
 	@Id
@@ -32,11 +34,11 @@ public class User implements UserDetails {
 	@Column(name = "nome", length = 60, nullable = false)
 	private String nome;
 
-	@Column(name = "matricula", nullable = false, unique = true)
-	private Integer matricula;
+	@Column(name = "matricula", length = 10, nullable = false, unique = true)
+	private String login;
 
-	@Column(name = "senha", nullable = false)
-	private String senha;
+	@Column(name = "senha", length = 60, nullable = false)
+	private String password;
 
 	@Column(name = "user_role", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -44,6 +46,13 @@ public class User implements UserDetails {
 
 	@Column(name = "ativo", nullable = false)
 	private boolean ativo;
+
+	public User(String nome, String login, String password, UserRole role) {
+		this.nome = nome;
+		this.login = login;
+		this.password = password;
+		this.role = role;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -56,12 +65,12 @@ public class User implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return this.senha;
+		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
-		return Integer.toString(this.matricula);
+		return this.login;
 	}
 
 	@Override
