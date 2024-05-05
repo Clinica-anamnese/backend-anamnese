@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,28 +35,35 @@ public class UserController {
 
     @GetMapping
 	public ResponseEntity<List<User>> listarUsuarios() {
-		return ResponseEntity.status(200).body(userService.listarUsuarios());
+		return ResponseEntity.ok(userService.listarUsuarios());
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<User>> consultarUsuario (@PathVariable Integer id) {
-		Optional<User> usuarioOptional = userService.consultarUsuario(id);
+		Optional<User> usuarioOptional = userService.consultarUsuarioID(id);
 
 		if (usuarioOptional.isPresent()) {
-			return ResponseEntity.status(200).body(userService.consultarUsuario(id));
+			return ResponseEntity.ok(userService.consultarUsuarioID(id));
 		}
 
 		return ResponseEntity.status(404).build();
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> criarUsuario (@Valid @RequestBody User novoUsuario) {
-		return ResponseEntity.status(201).body(userService.criarUsuario(novoUsuario));
+	public ResponseEntity<User> criarUsuario (@Valid @RequestBody User user) {
+		 if(userService.consultarUsuarioLogin(user) != null) return ResponseEntity.badRequest().build();
+        
+        String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        User newUser = new User(user.getNome(), user.getLogin(), encryptedPassword, user.getRole());
+
+        userService.criarUsuario(newUser);
+
+        return ResponseEntity.status(201).build();
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<User> alterarUsuario (@PathVariable Integer id, @RequestBody Map<String, Object> atributos) {
-		Optional<User> usuarioOptional = userService.consultarUsuario(id);
+		Optional<User> usuarioOptional = userService.consultarUsuarioID(id);
 
 		if (usuarioOptional.isPresent()) {
 			User usuario = usuarioOptional.get();
@@ -76,7 +84,7 @@ public class UserController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletarUsuario (@PathVariable Integer id) {
-		Optional<User> usuarioOptional = userService.consultarUsuario(id);
+		Optional<User> usuarioOptional = userService.consultarUsuarioID(id);
 
 		if (usuarioOptional.isPresent()) {
 			userService.deletarUsuario(id);

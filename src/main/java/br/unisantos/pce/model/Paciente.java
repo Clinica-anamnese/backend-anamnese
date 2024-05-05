@@ -33,11 +33,11 @@ public class Paciente {
     @Column(name = "nome", length = 60, nullable = false)
     private String nome;
 
-    @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
-
     @Column(name = "sexo", nullable = false)
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
+    
+    @Column(name = "data_nascimento", nullable = false)
+    private LocalDate dataNascimento;
 
 }

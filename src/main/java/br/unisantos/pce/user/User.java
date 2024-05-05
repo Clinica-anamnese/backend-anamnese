@@ -44,9 +44,6 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
-	@Column(name = "ativo", nullable = false)
-	private boolean ativo;
-
 	public User(String nome, String login, String password, UserRole role) {
 		this.nome = nome;
 		this.login = login;

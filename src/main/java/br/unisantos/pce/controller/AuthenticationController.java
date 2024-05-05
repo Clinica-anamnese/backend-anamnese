@@ -4,15 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.unisantos.pce.repository.UserRepository;
+import br.unisantos.pce.security.TokenService;
 import br.unisantos.pce.user.AuthenticationDTO;
-import br.unisantos.pce.user.RegisterDTO;
 import br.unisantos.pce.user.User;
 import jakarta.validation.Valid;
 
@@ -24,26 +22,16 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository repository;
+    private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login (@RequestBody @Valid AuthenticationDTO data) {
+    public ResponseEntity<String> login (@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
-    }
+        var token = tokenService.generateToken((User) auth.getPrincipal());
 
-    @PostMapping("/register")
-    public ResponseEntity register (@RequestBody @Valid RegisterDTO data) {
-        if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
-        
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.nome(), data.login(), encryptedPassword, data.role());
-
-        this.repository.save(newUser);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(token);
     }
 
 }

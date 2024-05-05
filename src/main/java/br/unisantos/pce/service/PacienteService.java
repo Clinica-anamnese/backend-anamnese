@@ -12,33 +12,29 @@ import br.unisantos.pce.repository.PacienteRepository;
 @Service
 public class PacienteService {
     
-    private final PacienteRepository pacienteRepository;
-
-    @Autowired
-    public PacienteService(PacienteRepository pacienteRepository) {
-        this.pacienteRepository = pacienteRepository;
-    }
+	@Autowired
+    private PacienteRepository repository;
 
     public List<Paciente> listarpacientes() {
-		return (List<Paciente>) pacienteRepository.findAll();
+		return (List<Paciente>) repository.findAll();
 	}
 	
 	public Optional<Paciente> consultarpaciente (Integer id) {
-		return pacienteRepository.findById(id);
+		return repository.findById(id);
 	}
 	
 	public Paciente criarpaciente (Paciente paciente) {
-		pacienteRepository.save(paciente);
+		repository.save(paciente);
 		return paciente;
 	}
 	
 	public Paciente alterarpaciente (Paciente paciente) {
-		pacienteRepository.save(paciente);
+		repository.save(paciente);
 		return paciente;
 	}
 
 	public Boolean deletarpaciente (Integer id) {
-		pacienteRepository.deleteById(id);
+		repository.deleteById(id);
 		return true;
 	}
 

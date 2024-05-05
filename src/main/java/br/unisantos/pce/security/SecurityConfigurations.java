@@ -1,5 +1,6 @@
-package br.unisantos.pce.user;
+package br.unisantos.pce.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,11 +12,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+
+    @Autowired
+    SecurityFilter securityFilter;
     
+    // Filtros de permissoes
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -23,10 +29,13 @@ public class SecurityConfigurations {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-            .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
             .requestMatchers(HttpMethod.POST, "/usuarios").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/usuarios").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/usuarios").hasRole("ADMIN")
             .anyRequest().authenticated()
         )
+        .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();
     }
 

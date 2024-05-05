@@ -1,8 +1,8 @@
 CREATE TABLE paciente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(60) NOT NULL,
-    data_nascimento DATE NOT NULL,
     sexo VARCHAR(30) NOT NULL,
+    data_nascimento DATE NOT NULL,
     criado_em DATE DEFAULT (CURRENT_DATE)
 );
 
@@ -12,6 +12,5 @@ CREATE TABLE usuario (
     matricula VARCHAR(10) NOT NULL UNIQUE,
     senha VARCHAR(60) NOT NULL,
     user_role ENUM('ADMIN', 'USER') NOT NULL,
-    ativo TINYINT(1) NOT NULL,
     criado_em DATE DEFAULT (CURRENT_DATE)
 );
