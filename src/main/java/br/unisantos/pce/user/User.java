@@ -1,5 +1,6 @@
 package br.unisantos.pce.user;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,6 +45,14 @@ public class User implements UserDetails {
 	@Column(name = "user_role", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+
+	@Column(name = "criado_em", nullable = false)
+	private LocalDate criadoEm;
+
+	@PrePersist
+	protected void onCreate() {
+		criadoEm = LocalDate.now();
+	}
 
 	public User(String nome, String login, String password, UserRole role) {
 		this.nome = nome;
