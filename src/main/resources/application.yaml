@@ -1,7 +1,7 @@
 spring:
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:${DB_URL}
+    driverClassName: org.postgresql.Driver
+    url: jdbc:${DB_HOST}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
