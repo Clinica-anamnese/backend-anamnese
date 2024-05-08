@@ -1,9 +1,9 @@
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://dpg-cotbbtqcn0vc738m30a0-a:5432/anamnese
+    username: useradmin
+    password: Qy9PPdI91O99ipSDAgCySiSTX8MszEqp
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
