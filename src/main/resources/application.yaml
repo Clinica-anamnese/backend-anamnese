@@ -1,14 +1,18 @@
-spring:
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-  jpa:
-    hibernate.ddl-auto: none
-    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    env:
+      enabled: true
 
-api:
-  security:
-    token:
-      secret: ${JWT_SECRET:my-secret-key}
+info:
+  application:
+    name: Unisantos-Anamnese
+    description: Aplicacao para anamnese
+    author: Anamnesianos
+    version: '@project.version@'
+spring:
+  profiles:
+    active: dev
