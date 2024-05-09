@@ -14,3 +14,6 @@ CREATE TABLE usuario (
     user_role ENUM('ADMIN', 'USER') NOT NULL,
     criado_em DATE DEFAULT (CURRENT_DATE)
 );
+
+INSERT INTO usuario (nome, matricula, senha, user_role)
+VALUES ('admin', 'admin', '$2a$12$nYYxMYVyQirARNSQBGLGOuVq7HAZkS9rJh7JmvUnKldrBkH1aFlSe', 'ADMIN');
