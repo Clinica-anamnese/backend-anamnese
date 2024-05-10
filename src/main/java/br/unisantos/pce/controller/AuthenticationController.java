@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.unisantos.pce.security.TokenService;
+import br.unisantos.pce.service.UserService;
 import br.unisantos.pce.user.AuthenticationDTO;
 import br.unisantos.pce.user.LoginResponseDTO;
 import br.unisantos.pce.user.User;
@@ -28,14 +29,18 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    UserService userService;
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login (@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
+        String nomeUsuario = userService.consultarUsuarioPorLogin(auth.getName()).getNome();
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseDTO(nomeUsuario, token));
     }
 
 }

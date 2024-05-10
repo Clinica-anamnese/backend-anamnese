@@ -40,10 +40,10 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<User>> consultarUsuario (@PathVariable Integer id) {
-		Optional<User> usuarioOptional = userService.consultarUsuarioID(id);
+		Optional<User> usuarioOptional = userService.consultarUsuarioPorId(id);
 
 		if (usuarioOptional.isPresent()) {
-			return ResponseEntity.ok(userService.consultarUsuarioID(id));
+			return ResponseEntity.ok(userService.consultarUsuarioPorId(id));
 		}
 
 		return ResponseEntity.status(404).build();
@@ -51,7 +51,7 @@ public class UserController {
 	
 	@PostMapping
 	public ResponseEntity<User> criarUsuario (@Valid @RequestBody User user) {
-		 if(userService.consultarUsuarioLogin(user) != null) return ResponseEntity.badRequest().build();
+		 if(userService.consultarUsuarioPorLogin(user.getLogin()) != null) return ResponseEntity.badRequest().build();
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         User newUser = new User(user.getNome(), user.getLogin(), encryptedPassword, user.getRole());
@@ -63,7 +63,7 @@ public class UserController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<User> alterarUsuario (@PathVariable Integer id, @RequestBody Map<String, Object> atributos) {
-		Optional<User> usuarioOptional = userService.consultarUsuarioID(id);
+		Optional<User> usuarioOptional = userService.consultarUsuarioPorId(id);
 
 		if (usuarioOptional.isPresent()) {
 			User usuario = usuarioOptional.get();
@@ -84,7 +84,7 @@ public class UserController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletarUsuario (@PathVariable Integer id) {
-		Optional<User> usuarioOptional = userService.consultarUsuarioID(id);
+		Optional<User> usuarioOptional = userService.consultarUsuarioPorId(id);
 
 		if (usuarioOptional.isPresent()) {
 			userService.deletarUsuario(id);

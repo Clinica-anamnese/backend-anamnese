@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import br.unisantos.pce.repository.UserRepository;
@@ -20,12 +19,12 @@ public class UserService {
 		return (List<User>) repository.findAll();
 	}
 	
-	public Optional<User> consultarUsuarioID (Integer id) {
+	public Optional<User> consultarUsuarioPorId (Integer id) {
 		return repository.findById(id);
 	}
 
-	public UserDetails consultarUsuarioLogin (User user) {
-		return repository.findByLogin(user.getLogin());
+	public User consultarUsuarioPorLogin (String login) {
+		return (User) repository.findByLogin(login);
 	}
 	
 	public User criarUsuario (User usuario) {
