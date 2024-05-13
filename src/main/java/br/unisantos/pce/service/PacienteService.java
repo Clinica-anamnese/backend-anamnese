@@ -15,25 +15,25 @@ public class PacienteService {
 	@Autowired
     private PacienteRepository repository;
 
-    public List<Paciente> listarpacientes() {
+    public List<Paciente> listarPacientes() {
 		return (List<Paciente>) repository.findAll();
 	}
 	
-	public Optional<Paciente> consultarpaciente (Integer id) {
+	public Optional<Paciente> consultarPaciente (Integer id) {
 		return repository.findById(id);
 	}
 	
-	public Paciente criarpaciente (Paciente paciente) {
+	public Paciente criarPaciente (Paciente paciente) {
 		repository.save(paciente);
 		return paciente;
 	}
 	
-	public Paciente alterarpaciente (Paciente paciente) {
+	public Paciente alterarPaciente (Paciente paciente) {
 		repository.save(paciente);
 		return paciente;
 	}
 
-	public Boolean deletarpaciente (Integer id) {
+	public Boolean deletarPaciente (Integer id) {
 		repository.deleteById(id);
 		return true;
 	}

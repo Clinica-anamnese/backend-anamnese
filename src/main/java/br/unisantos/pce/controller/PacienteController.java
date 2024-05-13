@@ -1,7 +1,6 @@
 package br.unisantos.pce.controller;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,50 +33,47 @@ public class PacienteController {
     }
 
     @GetMapping
-	public ResponseEntity<List<Paciente>> listarpacientes() {
-		return ResponseEntity.status(200).body(pacienteService.listarpacientes());
+	public ResponseEntity<List<Paciente>> listarPacientes() {
+		return ResponseEntity.status(200).body(pacienteService.listarPacientes());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Optional<Paciente>> consultarpaciente (@PathVariable Integer id) {
-		Optional<Paciente> pacienteOptional = pacienteService.consultarpaciente(id);
+	public ResponseEntity<Optional<Paciente>> consultarPaciente (@PathVariable Integer id) {
+		Optional<Paciente> pacienteOptional = pacienteService.consultarPaciente(id);
 
 		if (pacienteOptional.isPresent()) {
-			return ResponseEntity.status(200).body(pacienteService.consultarpaciente(id));
+			return ResponseEntity.status(200).body(pacienteService.consultarPaciente(id));
 		}
 
 		return ResponseEntity.status(404).build();
 	}
 	
 	@PostMapping
-	public ResponseEntity<Paciente> criarpaciente (@Valid @RequestBody Paciente novopaciente) {
-		return ResponseEntity.status(201).body(pacienteService.criarpaciente(novopaciente));
+	public ResponseEntity<Paciente> criarPaciente (@Valid @RequestBody Paciente novopaciente) {
+		return ResponseEntity.status(201).body(pacienteService.criarPaciente(novopaciente));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Paciente> alterarpaciente (@PathVariable Integer id, @RequestBody Map<String, Object> atributos) {
-		Optional<Paciente> pacienteOptional = pacienteService.consultarpaciente(id);
+	public ResponseEntity<Paciente> alterarPaciente (@PathVariable Integer id, @RequestBody Paciente pacienteAtualizado) {
+		Optional<Paciente> paciente = pacienteService.consultarPaciente(id);
 
-		if (pacienteOptional.isPresent()) {
-			Paciente paciente = pacienteOptional.get();
-
-			if (atributos.containsKey("nome")) {
-				paciente.setNome((String) atributos.get("nome"));
-			}
-
-			Paciente pacienteAlterado = pacienteService.alterarpaciente(paciente);
-			return ResponseEntity.status(200).body(pacienteAlterado);
+		if (paciente.isPresent()) {
+			paciente.get().setNome(pacienteAtualizado.getNome());
+			paciente.get().setSexo(pacienteAtualizado.getSexo());
+			paciente.get().setDataNascimento(pacienteAtualizado.getDataNascimento());
+			pacienteService.alterarPaciente(paciente.get());
+			return ResponseEntity.status(204).build();
 		}
 
 		return ResponseEntity.status(404).build();
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletarpaciente (@PathVariable Integer id) {
-		Optional<Paciente> pacienteOptional = pacienteService.consultarpaciente(id);
+	public ResponseEntity<?> deletarPaciente (@PathVariable Integer id) {
+		Optional<Paciente> pacienteOptional = pacienteService.consultarPaciente(id);
 
 		if (pacienteOptional.isPresent()) {
-			pacienteService.deletarpaciente(id);
+			pacienteService.deletarPaciente(id);
 			return ResponseEntity.status(204).build();
 		}
 
