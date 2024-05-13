@@ -1,4 +1,4 @@
-package br.unisantos.pce.model;
+/* package br.unisantos.pce.model;
 
 import java.io.Serial;
 import java.time.LocalDate;
@@ -25,12 +25,6 @@ public class AnamneseAdulto {
 	private enum TipoAtendimento {
 		avaliacao,
 		orientacao;
-	}
-
-	private enum Sexo {
-		masculino,
-		feminino,
-		nao_informado;
 	}
 
 	private enum Escolaridade {
@@ -67,28 +61,9 @@ public class AnamneseAdulto {
 	@Column(name = "id")
 	private Integer id;
 
-	@Column(name = "nome", length = 60, nullable = false)
-	private String nome;
-
 	@Column(name = "tipo_atendimento", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TipoAtendimento tipoAtendimento;
-
-	@Column(name = "data_nascimento", nullable = false)
-	private LocalDate dataNascimento;
-
-	@Column(name = "idade", columnDefinition = "TINYINT UNSIGNED")
-	private Integer idade;
-
-	@Column(name = "sexo", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Sexo sexo;
-
-	@Column(name = "cidade", length = 60, nullable = false)
-	private String cidade;
-
-	@Column(name = "bairro", length = 60, nullable = false)
-	private String bairro;
 
 	@Column(name = "escolaridade", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -604,13 +579,6 @@ public class AnamneseAdulto {
 	@PrePersist
 	protected void onCreate() {
 		dataAtendimento = LocalDate.now();
-		idade = LocalDate.now().getYear() - dataNascimento.getYear();
-
-		if (dataNascimento.getMonthValue() > LocalDate.now().getMonthValue() ||
-				(dataNascimento.getMonthValue() == LocalDate.now().getMonthValue() &&
-						dataNascimento.getDayOfMonth() > LocalDate.now().getDayOfMonth())) {
-			idade--;
-		}
 	}
 
-}
+} */

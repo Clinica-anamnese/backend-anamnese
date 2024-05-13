@@ -1,7 +1,10 @@
 package br.unisantos.pce.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+// import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,6 +48,9 @@ public class Paciente {
     
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
+
+    @OneToMany(mappedBy = "paciente")
+    private List<Anamnese> anamnese = new ArrayList<Anamnese>();
 
     @Column(name = "criado_em", nullable = false)
 	private LocalDate criadoEm;
