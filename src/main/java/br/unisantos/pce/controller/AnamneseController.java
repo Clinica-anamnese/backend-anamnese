@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.unisantos.pce.model.Anamnese;
+import br.unisantos.pce.model.AnamneseDTO;
+import br.unisantos.pce.model.Paciente;
 import br.unisantos.pce.service.AnamneseService;
+import br.unisantos.pce.service.PacienteService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -25,12 +28,11 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/anamneses", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AnamneseController {
     
-       private final AnamneseService anamneseService;
-
     @Autowired
-    public AnamneseController(AnamneseService anamneseService) {
-        this.anamneseService = anamneseService;
-    }
+    private AnamneseService anamneseService;
+
+	@Autowired
+	private PacienteService pacienteService;
 
     @GetMapping
 	public ResponseEntity<List<Anamnese>> listarAnamneses() {
@@ -49,8 +51,16 @@ public class AnamneseController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Anamnese> criarAnamnese (@Valid @RequestBody Anamnese novoanamnese) {
-		return ResponseEntity.status(201).body(anamneseService.criarAnamnese(novoanamnese));
+	public ResponseEntity<Anamnese> criarAnamnese (@Valid @RequestBody AnamneseDTO anamnese) {
+		Optional<Paciente> paciente = pacienteService.consultarPaciente(anamnese.pacienteId());
+
+		if (paciente.isPresent()) {
+			Anamnese newAnamnese = new Anamnese(anamnese.pergunta(), paciente.get());
+			
+			return ResponseEntity.status(201).body(anamneseService.criarAnamnese(newAnamnese));
+		}
+		
+		
 	}
 
 	@PutMapping("/{id}")

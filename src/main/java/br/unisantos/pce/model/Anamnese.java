@@ -22,9 +22,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Anamnese {
 
-    private enum TipoAtendimento {
-        avaliacao,
-        orientacao;
+    public Anamnese(String pergunta, Paciente paciente) {
+        this.pergunta1 = pergunta;
+        this.paciente = paciente;
     }
 
     @Id
@@ -32,9 +32,8 @@ public class Anamnese {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "tipo_atendimento", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TipoAtendimento tipoAtendimento;
+    @Column(name = "pergunta1", nullable = false)
+    private String pergunta1;
 
     @ManyToOne
     @JoinColumn(nullable = false)
