@@ -4,13 +4,9 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +18,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Anamnese {
 
-    public Anamnese(String pergunta, Paciente paciente) {
-        this.pergunta1 = pergunta;
-        this.paciente = paciente;
+    public Anamnese(String pergunta, Integer pacienteId) {
+        this.pergunta = pergunta;
+        this.pacienteId = pacienteId;
     }
 
     @Id
@@ -32,12 +28,11 @@ public class Anamnese {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "pergunta1", nullable = false)
-    private String pergunta1;
+    @Column(name = "pergunta", nullable = false)
+    private String pergunta;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Paciente paciente;
+    @Column(name = "paciente_id", nullable = false)
+    private Integer pacienteId;
 
     @Column(name = "criado_em", nullable = false)
     private LocalDate criadoEm;
