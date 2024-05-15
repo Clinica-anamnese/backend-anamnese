@@ -12,8 +12,12 @@ import br.unisantos.pce.repository.PacienteRepository;
 @Service
 public class PacienteService {
     
+	private final PacienteRepository repository;
+	
 	@Autowired
-    private PacienteRepository repository;
+	public PacienteService(PacienteRepository pacienteRepository) {
+		this.repository = pacienteRepository;
+	}
 
     public List<Paciente> listarPacientes() {
 		return (List<Paciente>) repository.findAll();

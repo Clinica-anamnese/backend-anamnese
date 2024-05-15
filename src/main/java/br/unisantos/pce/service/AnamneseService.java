@@ -12,8 +12,12 @@ import br.unisantos.pce.repository.AnamneseRepository;
 @Service
 public class AnamneseService {
 
+    private final AnamneseRepository repository;
+
     @Autowired
-    private AnamneseRepository repository;
+    AnamneseService(AnamneseRepository anamneseRepository) {
+        this.repository = anamneseRepository;
+    }
 
     public List<Anamnese> listarAnamneses() {
         return (List<Anamnese>) repository.findAll();

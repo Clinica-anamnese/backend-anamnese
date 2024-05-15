@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,13 +41,13 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<User>> consultarUsuario (@PathVariable Integer id) {
-		Optional<User> usuarioOptional = userService.consultarUsuarioPorId(id);
+		Optional<User> usuario = userService.consultarUsuarioPorId(id);
 
-		if (usuarioOptional.isPresent()) {
+		if (usuario.isPresent()) {
 			return ResponseEntity.ok(userService.consultarUsuarioPorId(id));
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@PostMapping
@@ -56,9 +57,7 @@ public class UserController {
         String encryptedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         User newUser = new User(user.getNome(), user.getLogin(), encryptedPassword, user.getRole());
 
-        userService.criarUsuario(newUser);
-
-        return ResponseEntity.status(201).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.criarUsuario(newUser));
 	}
 
 	@PutMapping("/{id}")
@@ -75,11 +74,10 @@ public class UserController {
 				usuario.setLogin((String) atributos.get("matricula"));
 			}
 
-			User usuarioAlterado = userService.alterarUsuario(usuario);
-			return ResponseEntity.status(200).body(usuarioAlterado);
+			return ResponseEntity.ok(userService.alterarUsuario(usuario));
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@DeleteMapping("/{id}")
@@ -88,10 +86,10 @@ public class UserController {
 
 		if (usuarioOptional.isPresent()) {
 			userService.deletarUsuario(id);
-			return ResponseEntity.status(204).build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 }

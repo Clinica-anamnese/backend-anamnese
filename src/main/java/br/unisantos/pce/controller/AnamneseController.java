@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.unisantos.pce.model.Anamnese;
-import br.unisantos.pce.model.AnamneseDTO;
 import br.unisantos.pce.model.Paciente;
 import br.unisantos.pce.service.AnamneseService;
 import br.unisantos.pce.service.PacienteService;
@@ -28,39 +28,42 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/anamneses", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AnamneseController {
     
-    @Autowired
-    private AnamneseService anamneseService;
+    private final AnamneseService anamneseService;
+
+	private final PacienteService pacienteService;
 
 	@Autowired
-	private PacienteService pacienteService;
+	public AnamneseController(AnamneseService anamneseService, PacienteService pacienteService ) {
+		this.anamneseService = anamneseService;
+		this.pacienteService = pacienteService;
+	}
 
     @GetMapping
 	public ResponseEntity<List<Anamnese>> listarAnamneses() {
-		return ResponseEntity.status(200).body(anamneseService.listarAnamneses());
+		return ResponseEntity.ok(anamneseService.listarAnamneses());
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Anamnese>> consultarAnamnese (@PathVariable Integer id) {
-		Optional<Anamnese> anamneseOptional = anamneseService.consultarAnamnese(id);
+		Optional<Anamnese> anamnese = anamneseService.consultarAnamnese(id);
 
-		if (anamneseOptional.isPresent()) {
-			return ResponseEntity.status(200).body(anamneseService.consultarAnamnese(id));
+		if (anamnese.isPresent()) {
+			return ResponseEntity.ok(anamneseService.consultarAnamnese(id));
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@PostMapping
-	public ResponseEntity<Anamnese> criarAnamnese (@Valid @RequestBody AnamneseDTO anamnese) {
-		Optional<Paciente> paciente = pacienteService.consultarPaciente(anamnese.pacienteId());
+	public ResponseEntity<Anamnese> criarAnamnese (@RequestBody @Valid Anamnese newAnamnese) {
+		Optional<Paciente> paciente = pacienteService.consultarPaciente(newAnamnese.getPacienteId());
 
 		if (paciente.isPresent()) {
-			Anamnese newAnamnese = new Anamnese(anamnese.pergunta(), paciente.get());
-			
-			return ResponseEntity.status(201).body(anamneseService.criarAnamnese(newAnamnese));
+			anamneseService.criarAnamnese(newAnamnese);
+			return ResponseEntity.status(HttpStatus.CREATED).body(newAnamnese);
 		}
 		
-		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@PutMapping("/{id}")
@@ -75,7 +78,7 @@ public class AnamneseController {
 			return ResponseEntity.status(204).build();
 		} */
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@DeleteMapping("/{id}")
@@ -84,10 +87,10 @@ public class AnamneseController {
 
 		if (anamneseOptional.isPresent()) {
 			anamneseService.deletarAnamnese(id);
-			return ResponseEntity.status(204).build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 }

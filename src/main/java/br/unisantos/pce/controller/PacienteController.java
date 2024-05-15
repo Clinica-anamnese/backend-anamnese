@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
-
 import br.unisantos.pce.model.Paciente;
 import br.unisantos.pce.service.PacienteService;
 
@@ -34,23 +34,23 @@ public class PacienteController {
 
     @GetMapping
 	public ResponseEntity<List<Paciente>> listarPacientes() {
-		return ResponseEntity.status(200).body(pacienteService.listarPacientes());
+		return ResponseEntity.ok(pacienteService.listarPacientes());
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<Paciente>> consultarPaciente (@PathVariable Integer id) {
-		Optional<Paciente> pacienteOptional = pacienteService.consultarPaciente(id);
+		Optional<Paciente> paciente = pacienteService.consultarPaciente(id);
 
-		if (pacienteOptional.isPresent()) {
-			return ResponseEntity.status(200).body(pacienteService.consultarPaciente(id));
+		if (paciente.isPresent()) {
+			return ResponseEntity.ok(pacienteService.consultarPaciente(id));
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 	
 	@PostMapping
 	public ResponseEntity<Paciente> criarPaciente (@Valid @RequestBody Paciente novopaciente) {
-		return ResponseEntity.status(201).body(pacienteService.criarPaciente(novopaciente));
+		return ResponseEntity.status(HttpStatus.CREATED).body(pacienteService.criarPaciente(novopaciente));
 	}
 
 	@PutMapping("/{id}")
@@ -61,23 +61,22 @@ public class PacienteController {
 			paciente.get().setNome(pacienteAtualizado.getNome());
 			paciente.get().setSexo(pacienteAtualizado.getSexo());
 			paciente.get().setDataNascimento(pacienteAtualizado.getDataNascimento());
-			pacienteService.alterarPaciente(paciente.get());
-			return ResponseEntity.status(204).build();
+			return ResponseEntity.ok(pacienteService.alterarPaciente(paciente.get()));
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletarPaciente (@PathVariable Integer id) {
-		Optional<Paciente> pacienteOptional = pacienteService.consultarPaciente(id);
+		Optional<Paciente> paciente = pacienteService.consultarPaciente(id);
 
-		if (pacienteOptional.isPresent()) {
+		if (paciente.isPresent()) {
 			pacienteService.deletarPaciente(id);
-			return ResponseEntity.status(204).build();
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 
-		return ResponseEntity.status(404).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 
 }
