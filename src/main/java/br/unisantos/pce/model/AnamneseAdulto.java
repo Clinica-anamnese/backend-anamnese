@@ -1,6 +1,5 @@
-/* package br.unisantos.pce.model;
+package br.unisantos.pce.model;
 
-import java.io.Serial;
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,8 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +18,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class AnamneseAdulto {
-
-	private enum TipoAtendimento {
-		avaliacao,
-		orientacao;
-	}
 
 	private enum Escolaridade {
 		fundamental_completo,
@@ -42,7 +34,7 @@ public class AnamneseAdulto {
 		NA;
 	}
 
-	private enum Opcao {
+/* 	private enum Opcao {
 		sim,
 		nao,
 		as_vezes;
@@ -51,19 +43,20 @@ public class AnamneseAdulto {
 	private enum Companhia {
 		sozinho,
 		acompanhado;
-	}
+	} */
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+	public enum FaixaRenda {
+		menos_de_1_salario_minimo,
+		de_1_a_2_salarios_minimos,
+		de_3_a_5_salarios_minimos,
+		mais_de_5_salarios_minimos,
+		nao_sei;
+	}	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Integer id;
-
-	@Column(name = "tipo_atendimento", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private TipoAtendimento tipoAtendimento;
 
 	@Column(name = "escolaridade", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -86,10 +79,9 @@ public class AnamneseAdulto {
 	@Column(name = "profissao", length = 60, nullable = false)
 	private String profissao;
 
-	@Min(0)
-	@Max(4)
 	@Column(name = "renda_familiar", columnDefinition = "TINYINT UNSIGNED", nullable = false)
-	private Integer rendaFamiliar;
+	@Enumerated(EnumType.STRING)
+	private FaixaRenda rendaFamiliar;
 
 	@Column(name = "num_pessoas_domicilio", columnDefinition = "TINYINT UNSIGNED", nullable = false)
 	private Integer numPessoasDomicilio;
@@ -121,13 +113,7 @@ public class AnamneseAdulto {
 	@Column(name = "atv_fisica", nullable = false, length = 60)
 	private String atvFisica;
 
-	@Column(name = "frequencia_semanal_atv_fisica", nullable = false)
-	private Integer frequenciaSemanalAtvFisica;
-
-	@Column(name = "duracao_atv_fisica", length = 60, nullable = false)
-	private String duracaoAtvFisica;
-
-	@Column(name = "cafe_da_manha", length = 60)
+/* 	@Column(name = "cafe_da_manha", length = 60)
 	private String cafeDaManha;
 
 	@Column(name = "lanche_da_manha", length = 60)
@@ -571,14 +557,14 @@ public class AnamneseAdulto {
 	private int forcaPreencaoManualEsquerda;
 
 	@Column(name = "metas", length = 60)
-	private String metas;
+	private String metas; */
 
-	@Column(name = "data_atendimento", nullable = false)
-	private LocalDate dataAtendimento;
+	@Column(name = "criado_em", nullable = false)
+	private LocalDate criadoEm;
 
 	@PrePersist
 	protected void onCreate() {
-		dataAtendimento = LocalDate.now();
+		criadoEm = LocalDate.now();
 	}
 
-} */
+}
