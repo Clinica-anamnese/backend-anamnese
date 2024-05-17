@@ -12,16 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@Getter
-@Setter
 public class Paciente {
 
     private enum Sexo {

@@ -59,6 +59,7 @@ public class AnamneseController {
 		Optional<Paciente> paciente = pacienteService.consultarPaciente(newAnamnese.getPacienteId());
 
 		if (paciente.isPresent()) {
+			newAnamnese.setPacienteNome(paciente.get().getNome());
 			anamneseService.criarAnamnese(newAnamnese);
 			return ResponseEntity.status(HttpStatus.CREATED).body(newAnamnese);
 		}

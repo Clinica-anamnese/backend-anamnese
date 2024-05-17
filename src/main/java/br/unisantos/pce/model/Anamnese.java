@@ -1,6 +1,7 @@
 package br.unisantos.pce.model;
 
 import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,16 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-@Getter
-@Setter
 public class Anamnese {
 
 	private enum Escolaridade {
@@ -73,6 +70,9 @@ public class Anamnese {
 
 	@Column(name = "paciente_id", nullable = false)
     private Integer pacienteId;
+
+	@Column(name = "paciente_nome", length = 60, nullable = false)
+	private String pacienteNome;
 
 	@Column(name = "escolaridade", nullable = false)
 	@Enumerated(EnumType.STRING)

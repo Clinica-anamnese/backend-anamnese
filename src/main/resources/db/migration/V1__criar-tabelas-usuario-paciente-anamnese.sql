@@ -18,6 +18,7 @@ CREATE TABLE usuario (
 CREATE TABLE anamnese (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     paciente_id INT NOT NULL,
+    paciente_nome VARCHAR(60) NOT NULL,
     escolaridade ENUM('fundamental_completo', 'ensino_medio_completo', 'ensino_superior_incompleto', 'ensino_superior_completo', 'outra') NOT NULL,
     periodo_estudo ENUM('manha', 'tarde', 'noite', 'NA') NOT NULL,
     lanche_estudo BOOLEAN NOT NULL,
