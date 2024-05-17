@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 public class Paciente {
 
-    public enum Sexo {
+    private enum Sexo {
         masculino,
         feminino,
         nao_informado;
