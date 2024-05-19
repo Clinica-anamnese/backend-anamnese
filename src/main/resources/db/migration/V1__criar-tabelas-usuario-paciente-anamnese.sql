@@ -19,12 +19,14 @@ CREATE TABLE anamnese (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     paciente_id INT NOT NULL,
     paciente_nome VARCHAR(60) NOT NULL,
+    usuario_id INT NOT NULL,
+    usuario_nome VARCHAR(60) NOT NULL,
     escolaridade ENUM('fundamental_completo', 'ensino_medio_completo', 'ensino_superior_incompleto', 'ensino_superior_completo', 'outra') NOT NULL,
     periodo_estudo ENUM('manha', 'tarde', 'noite', 'NA') NOT NULL,
     lanche_estudo BOOLEAN NOT NULL,
     periodo_trabalho ENUM('manha', 'tarde', 'noite', 'NA') NOT NULL,
     lanche_trabalho BOOLEAN NOT NULL,
-    profissao VARCHAR(60) NOT NULL,
+    profissao VARCHAR(60),
     renda_familiar ENUM('menos_de_1_salario_minimo', 'de_1_a_2_salarios_minimos', 'de_3_a_5_salarios_minimos', 'mais_de_5_salarios_minimos', 'nao_sei') NOT NULL,
     num_pessoas_domicilio INT NOT NULL,
     motivo TEXT NOT NULL,
@@ -37,7 +39,8 @@ CREATE TABLE anamnese (
     pratica_atv_fisica BOOLEAN NOT NULL,
     atv_fisica TEXT,
     criado_em DATE DEFAULT (CURRENT_DATE) NOT NULL,
-    FOREIGN KEY (paciente_id) REFERENCES paciente(id)
+    FOREIGN KEY (paciente_id) REFERENCES paciente(id),
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
 INSERT INTO usuario (nome, matricula, senha, user_role)

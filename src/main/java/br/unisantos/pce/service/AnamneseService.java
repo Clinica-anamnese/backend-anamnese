@@ -23,6 +23,14 @@ public class AnamneseService {
         return (List<Anamnese>) repository.findAll();
     }
 
+    public List<Anamnese> listarAnamnesesByPacienteId(Integer pacienteId) {
+        return (List<Anamnese>) repository.findAllByPacienteId(pacienteId);
+    }
+
+    public List<Anamnese> listarAnamnesesByUsuarioId(Integer usuarioId) {
+        return (List<Anamnese>) repository.findAllByUsuarioId(usuarioId);
+    }
+
     public Optional<Anamnese> consultarAnamnese(Integer id) {
         return repository.findById(id);
     }

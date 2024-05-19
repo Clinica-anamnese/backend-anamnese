@@ -74,6 +74,12 @@ public class Anamnese {
 	@Column(name = "paciente_nome", length = 60, nullable = false)
 	private String pacienteNome;
 
+	@Column(name = "usuario_id", nullable = false)
+    private Integer usuarioId;
+
+	@Column(name = "usuario_nome", length = 60, nullable = false)
+	private String usuarioNome;
+
 	@Column(name = "escolaridade", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Escolaridade escolaridade;
@@ -92,7 +98,7 @@ public class Anamnese {
 	@Column(name = "lanche_trabalho", nullable = false)
 	private Boolean lancheTrabalho;
 
-	@Column(name = "profissao", length = 60, nullable = false)
+	@Column(name = "profissao", length = 60)
 	private String profissao;
 
 	@Column(name = "renda_familiar", nullable = false)

@@ -36,11 +36,13 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDTO> login (@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
+        User usuario = userService.consultarUsuarioPorLogin(auth.getName());
 
-        var token = tokenService.generateToken((User) auth.getPrincipal());
-        String nomeUsuario = userService.consultarUsuarioPorLogin(auth.getName()).getNome();
+        Integer usuarioId = usuario.getId();
+        String usuarioNome = usuario.getNome();
+        String token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponseDTO(nomeUsuario, token));
+        return ResponseEntity.ok(new LoginResponseDTO(usuarioId, usuarioNome, token));
     }
 
 }

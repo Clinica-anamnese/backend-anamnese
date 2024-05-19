@@ -21,6 +21,8 @@ import br.unisantos.pce.model.Anamnese;
 import br.unisantos.pce.model.Paciente;
 import br.unisantos.pce.service.AnamneseService;
 import br.unisantos.pce.service.PacienteService;
+import br.unisantos.pce.service.UserService;
+import br.unisantos.pce.user.User;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,18 +31,29 @@ import jakarta.validation.Valid;
 public class AnamneseController {
     
     private final AnamneseService anamneseService;
-
 	private final PacienteService pacienteService;
+	private final UserService userService;
 
 	@Autowired
-	public AnamneseController(AnamneseService anamneseService, PacienteService pacienteService ) {
+	public AnamneseController(AnamneseService anamneseService, PacienteService pacienteService, UserService userService) {
 		this.anamneseService = anamneseService;
 		this.pacienteService = pacienteService;
+		this.userService = userService;
 	}
 
     @GetMapping
 	public ResponseEntity<List<Anamnese>> listarAnamneses() {
 		return ResponseEntity.ok(anamneseService.listarAnamneses());
+	}
+
+	@GetMapping("/usuarios/{id}")
+	public ResponseEntity<List<Anamnese>> listarAnamnesesDoUsuario(@PathVariable Integer id) {
+		return ResponseEntity.ok(anamneseService.listarAnamnesesByUsuarioId(id));
+	}
+
+	@GetMapping("/pacientes/{id}")
+	public ResponseEntity<List<Anamnese>> listarAnamnesesDoPaciente(@PathVariable Integer id) {
+		return ResponseEntity.ok(anamneseService.listarAnamnesesByPacienteId(id));
 	}
 	
 	@GetMapping("/{id}")
@@ -57,9 +70,11 @@ public class AnamneseController {
 	@PostMapping
 	public ResponseEntity<Anamnese> criarAnamnese (@RequestBody @Valid Anamnese newAnamnese) {
 		Optional<Paciente> paciente = pacienteService.consultarPaciente(newAnamnese.getPacienteId());
+		Optional<User> usuario = userService.consultarUsuarioPorId(newAnamnese.getUsuarioId());
 
-		if (paciente.isPresent()) {
+		if (paciente.isPresent() && usuario.isPresent()) {
 			newAnamnese.setPacienteNome(paciente.get().getNome());
+			newAnamnese.setUsuarioNome(usuario.get().getNome());
 			anamneseService.criarAnamnese(newAnamnese);
 			return ResponseEntity.status(HttpStatus.CREATED).body(newAnamnese);
 		}

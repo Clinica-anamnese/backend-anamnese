@@ -38,6 +38,7 @@ public class UserController {
 	public ResponseEntity<List<User>> listarUsuarios() {
 		return ResponseEntity.ok(userService.listarUsuarios());
 	}
+
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Optional<User>> consultarUsuario (@PathVariable Integer id) {
@@ -70,8 +71,16 @@ public class UserController {
 			if (atributos.containsKey("nome")) {
 				usuario.setNome((String) atributos.get("nome"));
 			}
-			if (atributos.containsKey("matricula")) {
-				usuario.setLogin((String) atributos.get("matricula"));
+			if (atributos.containsKey("login")) {
+				usuario.setLogin((String) atributos.get("login"));
+			}
+			if (atributos.containsKey("password") && atributos.containsKey("passwordConfirm")) {
+				if (atributos.get("password").equals(atributos.get("passwordConfirm"))) {
+					String encryptedPassword = new BCryptPasswordEncoder().encode((String) atributos.get("password"));
+					usuario.setPassword(encryptedPassword);
+				} else {
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+				}
 			}
 
 			return ResponseEntity.ok(userService.alterarUsuario(usuario));
