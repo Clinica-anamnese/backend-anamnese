@@ -35,18 +35,16 @@ public class Anamnese {
 		NA;
 	}
 
-	/*
-	 * private enum Opcao {
-	 * sim,
-	 * nao,
-	 * as_vezes;
-	 * }
-	 * 
-	 * private enum Companhia {
-	 * sozinho,
-	 * acompanhado;
-	 * }
-	 */
+	private enum Opcao {
+	sim,
+	nao,
+	as_vezes;
+	}
+	
+	private enum Companhia {
+	sozinho,
+	acompanhado;
+	}
 
 	private enum FaixaRenda {
 		menos_de_1_salario_minimo,
@@ -54,6 +52,13 @@ public class Anamnese {
 		de_3_a_5_salarios_minimos,
 		mais_de_5_salarios_minimos,
 		nao_sei;
+	}
+
+	private enum Frequencia {
+		diario,
+		semanal,
+		mensal,
+		nao;
 	}
 
 	private enum FrequenciaEvacuacao {
@@ -101,12 +106,16 @@ public class Anamnese {
 	@Column(name = "profissao", length = 60)
 	private String profissao;
 
+	// caracteristicas socioeconomicas //
+
 	@Column(name = "renda_familiar", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private FaixaRenda rendaFamiliar;
 
-	@Column(name = "num_pessoas_domicilio", columnDefinition = "TINYINT UNSIGNED", nullable = false)
+	@Column(name = "num_pessoas_domicilio", columnDefinition = "TINYINT", nullable = false)
 	private Integer numPessoasDomicilio;
+
+	// hirtoria clinica //
 
 	@Column(name = "motivo", columnDefinition = "TEXT", nullable = false)
 	private String motivo;
@@ -127,7 +136,7 @@ public class Anamnese {
 	@Enumerated(EnumType.STRING)
 	private FrequenciaEvacuacao frequenciaEvacuacao;
 
-	@Column(name = "consistencia_evacuacao", columnDefinition = "TINYINT UNSIGNED", nullable = false)
+	@Column(name = "consistencia_evacuacao", columnDefinition = "TINYINT", nullable = false)
 	private Integer consistenciaEvacuacao;
 
 	@Column(name = "pratica_atv_fisica", nullable = false)
@@ -135,460 +144,573 @@ public class Anamnese {
 
 	@Column(name = "atv_fisica")
 	private String atvFisica;
+	
+	@Column(name = "cafe_da_manha")
+	private String cafeDaManha;
+	
+	@Column(name = "lanche_da_manha")
+	private String lancheDaManha;
+	
+	@Column(name = "almoco")
+	private String almoco;
+	
+	@Column(name = "lanche_da_tarde")
+	private String lancheDaTarde;
+	
+	@Column(name = "jantar")
+	private String jantar;
+	
+	@Column(name = "ceia")
+	private String ceia;
 
-	/*
-	 * @Column(name = "cafe_da_manha")
-	 * private String cafeDaManha;
-	 * 
-	 * @Column(name = "lanche_da_manha")
-	 * private String lancheDaManha;
-	 * 
-	 * @Column(name = "almoco")
-	 * private String almoco;
-	 * 
-	 * @Column(name = "lanche_da_tarde")
-	 * private String lancheDaTarde;
-	 * 
-	 * @Column(name = "jantar")
-	 * private String jantar;
-	 * 
-	 * @Column(name = "ceia")
-	 * private String ceia;
-	 * 
-	 * @Column(name = "legumes_cenoura")
-	 * private String legumesCenoura;
-	 * 
-	 * @Column(name = "legumes_beterraba")
-	 * private String legumesBeterraba;
-	 * 
-	 * @Column(name = "legumes_berinjela")
-	 * private String legumesBerinjela;
-	 * 
-	 * @Column(name = "legumes_pepino")
-	 * private String legumesPepino;
-	 * 
-	 * @Column(name = "legumes_abobrinha")
-	 * private String legumesAbobrinha;
-	 * 
-	 * @Column(name = "legumes_chuchu")
-	 * private String legumesChuchu;
-	 * 
-	 * @Column(name = "legumes_tomate")
-	 * private String legumesTomate;
-	 * 
-	 * @Column(name = "verduras_acelga")
-	 * private String verdurasAcelga;
-	 * 
-	 * @Column(name = "verduras_agriao")
-	 * private String verdurasAgriao;
-	 * 
-	 * @Column(name = "verduras_alface")
-	 * private String verdurasAlface;
-	 * 
-	 * @Column(name = "verduras_brocolis")
-	 * private String verdurasBrocolis;
-	 * 
-	 * @Column(name = "verduras_chicoria")
-	 * private String verdurasChicoria;
-	 * 
-	 * @Column(name = "verduras_couve_manteiga")
-	 * private String verdurasCouveManteiga;
-	 * 
-	 * @Column(name = "verduras_couve_flor")
-	 * private String verdurasCouveFlor;
-	 * 
-	 * @Column(name = "verduras_espinafre")
-	 * private String verdurasEspinafre;
-	 * 
-	 * @Column(name = "verduras_rucula")
-	 * private String verdurasRucula;
-	 * 
-	 * @Column(name = "frutas_c_laranja")
-	 * private String frutasCLaranja;
-	 * 
-	 * @Column(name = "frutas_c_tangerina")
-	 * private String frutasCTangerina;
-	 * 
-	 * @Column(name = "frutas_c_limao")
-	 * private String frutasCLimao;
-	 * 
-	 * @Column(name = "frutas_c_abacaxi")
-	 * private String frutasCAbacaxi;
-	 * 
-	 * @Column(name = "frutas_c_acerola")
-	 * private String frutasCAcerola;
-	 * 
-	 * @Column(name = "frutas_c_morango")
-	 * private String frutasCMorango;
-	 * 
-	 * @Column(name = "frutas_c_kiwi")
-	 * private String frutasCKiwi;
-	 * 
-	 * @Column(name = "frutas_c_maracuja")
-	 * private String frutasCMaracuja;
-	 * 
-	 * @Column(name = "demais_frutas_banana")
-	 * private String demaisFrutasBanana;
-	 * 
-	 * @Column(name = "demais_frutas_goiaba")
-	 * private String demaisFrutasGoiaba;
-	 * 
-	 * @Column(name = "demais_frutas_maca")
-	 * private String demaisFrutasMaca;
-	 * 
-	 * @Column(name = "demais_frutas_mamao")
-	 * private String demaisFrutasMamao;
-	 * 
-	 * @Column(name = "demais_frutas_manga")
-	 * private String demaisFrutasManga;
-	 * 
-	 * @Column(name = "demais_frutas_melancia")
-	 * private String demaisFrutasMelancia;
-	 * 
-	 * @Column(name = "demais_frutas_melao")
-	 * private String demaisFrutasMelao;
-	 * 
-	 * @Column(name = "demais_frutas_pera")
-	 * private String demaisFrutasPera;
-	 * 
-	 * @Column(name = "demais_frutas_pessego")
-	 * private String demaisFrutasPessego;
-	 * 
-	 * @Column(name = "demais_frutas_uva")
-	 * private String demaisFrutasUva;
-	 * 
-	 * @Column(name = "leguminosas_feijao")
-	 * private String leguminosasFeijao;
-	 * 
-	 * @Column(name = "leguminosas_lentilha")
-	 * private String leguminosasLentilha;
-	 * 
-	 * @Column(name = "leguminosas_ervilha")
-	 * private String leguminosasErvilha;
-	 * 
-	 * @Column(name = "leguminosas_soja")
-	 * private String leguminosasSoja;
-	 * 
-	 * @Column(name = "leguminosas_grao_de_bico")
-	 * private String leguminosasGraoDeBico;
-	 * 
-	 * @Column(name = "leguminosas_vagem")
-	 * private String leguminosasVagem;
-	 * 
-	 * @Column(name = "carnes_bovina")
-	 * private String carnesBovina;
-	 * 
-	 * @Column(name = "carnes_suina")
-	 * private String carnesSuina;
-	 * 
-	 * @Column(name = "carnes_aves")
-	 * private String carnesAves;
-	 * 
-	 * @Column(name = "carnes_peixe")
-	 * private String carnesPeixe;
-	 * 
-	 * @Column(name = "frutos_do_mar")
-	 * private String frutosDoMar;
-	 * 
-	 * @Column(name = "ovo")
-	 * private String ovo;
-	 * 
-	 * @Column(name = "arroz_branco_polido")
-	 * private String arrozBrancoPolido;
-	 * 
-	 * @Column(name = "arroz_integral")
-	 * private String arrozIntegral;
-	 * 
-	 * @Column(name = "lacteos_leite_integral_desnatado_semi")
-	 * private String lacteosLeiteIntegralDesnatadoSemi;
-	 * 
-	 * @Column(name = "lacteos_leite_sem_lactose")
-	 * private String lacteosLeiteSemLactose;
-	 * 
-	 * @Column(name = "lacteos_queijos")
-	 * private String lacteosQueijosPedacoOuFatia;
-	 * 
-	 * @Column(name = "lacteos_iogurtes")
-	 * private String lacteosIogurtes;
-	 * 
-	 * @Column(name = "cereais_aveia")
-	 * private String cereaisAveia;
-	 * 
-	 * @Column(name = "cereais_granola_in_natura")
-	 * private String cereaisGranolaInNatura;
-	 * 
-	 * @Column(name = "cereais_quinoa")
-	 * private String cereaisQuinoa;
-	 * 
-	 * @Column(name = "cereais_linhaca")
-	 * private String cereaisLinhaca;
-	 * 
-	 * @Column(name = "cereais_chia")
-	 * private String cereaisChia;
-	 * 
-	 * @Column(name = "paes_frances_media_normal")
-	 * private String paesFrancesMediaNormal;
-	 * 
-	 * @Column(name = "paes_frances_media_integral")
-	 * private String paesFrancesMediaIntegral;
-	 * 
-	 * @Column(name = "paes_forma")
-	 * private String paesForma;
-	 * 
-	 * @Column(name = "paes_forma_integral")
-	 * private String paesFormaIntegral;
-	 * 
-	 * @Column(name = "paes_cara")
-	 * private String paesCara;
-	 * 
-	 * @Column(name = "pastas_requeijao")
-	 * private String pastasRequeijao;
-	 * 
-	 * @Column(name = "pastas_margarina")
-	 * private String pastasMargarina;
-	 * 
-	 * @Column(name = "pastas_manteiga")
-	 * private String pastasManteiga;
-	 * 
-	 * @Column(name = "pastas_ricota")
-	 * private String pastasRicota;
-	 * 
-	 * @Column(name = "pastas_cottage")
-	 * private String pastasCottage;
-	 * 
-	 * @Column(name = "pastas_doce_de_leite")
-	 * private String pastasDoceDeLeite;
-	 * 
-	 * @Column(name = "pastas_creme_de_avela")
-	 * private String pastasCremeDeAvela;
-	 * 
-	 * @Column(name = "pastas_geleia")
-	 * private String pastasGeleia;
-	 * 
-	 * @Column(name = "salgados_mistinho_esfiha")
-	 * private String salgadosMistinhoEsfiha;
-	 * 
-	 * @Column(name = "salgados_coxinha_croquete")
-	 * private String salgadosCoxinhaCroquete;
-	 * 
-	 * @Column(name = "salgados_empadas")
-	 * private String salgadosEmpadas;
-	 * 
-	 * @Column(name = "salgados_pao_de_queijo")
-	 * private String salgadosPaoDeQueijo;
-	 * 
-	 * @Column(name = "ultraprocessados_salgadinho_de_pacote")
-	 * private String ultraprocessadosSalgadinhoDePacote;
-	 * 
-	 * @Column(name = "ultraprocessados_biscoito_salgado")
-	 * private String ultraprocessadosBiscoitoSalgado;
-	 * 
-	 * @Column(name = "ultraprocessados_biscoito_doce")
-	 * private String ultraprocessadosBiscoitoDoce;
-	 * 
-	 * @Column(name = "ultraprocessados_chocolate")
-	 * private String ultraprocessadosChocolate;
-	 * 
-	 * @Column(name = "ultraprocessados_refrigerante")
-	 * private String ultraprocessadosRefrigerante;
-	 * 
-	 * @Column(name = "ultraprocessados_suco_em_po_caixinha")
-	 * private String ultraprocessadosSucoEmPoCaixinha;
-	 * 
-	 * @Column(name = "ultraprocessados_pratos_prontos_congelados")
-	 * private String ultraprocessadosPratosProntosCongelados;
-	 * 
-	 * @Column(name = "ultraprocessados_macarrao_instantaneo")
-	 * private String ultraprocessadosMacarraoInstantaneo;
-	 * 
-	 * @Column(name = "ultraprocessados_bolinho")
-	 * private String ultraprocessadosBolinho;
-	 * 
-	 * @Column(name = "ultraprocessados_fast_food")
-	 * private String ultraprocessadosFastFood;
-	 * 
-	 * @Column(name = "embutidos_salame")
-	 * private String embutidosSalame;
-	 * 
-	 * @Column(name = "embutidos_presunto")
-	 * private String embutidosPresunto;
-	 * 
-	 * @Column(name = "embutidos_apresuntado_mortadela")
-	 * private String embutidosApresuntadoMortadela;
-	 * 
-	 * @Column(name = "embutidos_linguica_toscana_calabresa")
-	 * private String embutidosLinguicaToscanaCalabresa;
-	 * 
-	 * @Column(name = "embutidos_salsicha")
-	 * private String embutidosSalsicha;
-	 * 
-	 * @Column(name = "embutidos_peito_de_peru")
-	 * private String embutidosPeitoDePeru;
-	 * 
-	 * @Column(name = "embutidos_rosbife")
-	 * private String embutidosRosbife;
-	 * 
-	 * @Column(name = "embutidos_nuggets")
-	 * private String embutidosNuggets;
-	 * 
-	 * @Column(name = "embutidos_hamburguer_tradicional")
-	 * private String embutidosHamburguerTradicional;
-	 * 
-	 * @Column(name = "acucares_acucar")
-	 * private String acucaresAcucar;
-	 * 
-	 * @Column(name = "acucares_adocante")
-	 * private String acucaresAdocante;
-	 * 
-	 * @Column(name = "acucares_mel_melado")
-	 * private String acucaresMelMelado;
-	 * 
-	 * @Column(name = "acucares_produtos_confeitaria")
-	 * private String acucaresProdutosConfeitaria;
-	 * 
-	 * @Column(name = "acucares_guloseimas")
-	 * private String acucaresGuloseimas;
-	 * 
-	 * @Column(name = "acucares_achocolatados")
-	 * private String acucaresAchocolatados;
-	 * 
-	 * @Column(name = "molhos_ketchup")
-	 * private String molhosKetchup;
-	 * 
-	 * @Column(name = "molhos_mostarda")
-	 * private String molhosMostarda;
-	 * 
-	 * @Column(name = "molhos_shoyu")
-	 * private String molhosShoyu;
-	 * 
-	 * @Column(name = "molhos_tare")
-	 * private String molhosTare;
-	 * 
-	 * @Column(name = "molhos_maionese")
-	 * private String molhosMaionese;
-	 * 
-	 * @Column(name = "quem_cozinha")
-	 * private String quemCozinha;
-	 * 
-	 * @Column(name = "necessidade_comer_estressado_ansioso_triste")
-	 * 
-	 * @Enumerated(EnumType.STRING)
-	 * private Opcao necessidadeComerEstressadoAnsiosoTriste;
-	 * 
-	 * @Column(name = "realiza_refeicoes_sozinho_acompanhado")
-	 * 
-	 * @Enumerated(EnumType.STRING)
-	 * private Companhia realizaRefeicoesSozinhoAcompanhado;
-	 * 
-	 * @Column(name = "excesso_alimentos_nao_saudaveis_sintomas")
-	 * private String excessoAlimentosNaoSaudaveisSintomas;
-	 * 
-	 * @Column(name = "dificuldade_rotina_alimentar_saudavel")
-	 * private String dificuldadeRotinaAlimentarSaudavel;
-	 * 
-	 * @Column(name = "necessidade_consolo_alimentar")
-	 * private Opcao necessidadeConsoloAlimentar;
-	 * 
-	 * @Column(name = "dificuldade_parar_de_comer")
-	 * private Opcao dificuldadePararDeComer;
-	 * 
-	 * @Column(name = "frequencia_fome_fisiologica")
-	 * private String frequenciaFomeFisiologica;
-	 * 
-	 * @Column(name = "frequencia_necessidade_emocional_comer")
-	 * private String frequenciaNecessidadeEmocionalComer;
-	 * 
-	 * @Column(name = "nao_modificar_plano_alimentar")
-	 * private String naoModificarPlanoAlimentar;
-	 * 
-	 * @Column(name = "aversao_alimentar")
-	 * private String aversaoAlimentar;
-	 * 
-	 * @Column(name = "tolera_alimentos_proteina_animal")
-	 * private boolean toleraAlimentosProteinaAnimal;
-	 * 
-	 * @Column(name = "alergia_intolerancias_alimentares")
-	 * private String alergiaIntoleranciasAlimentares;
-	 * 
-	 * @Column(name = "nota_saciedade_pos_refeicoes", columnDefinition =
-	 * "TINYINT UNSIGNED", nullable = false)
-	 * private int notaSaciedadePosRefeicoes;
-	 * 
-	 * @Column(name = "nota_humor_pos_refeicoes", columnDefinition =
-	 * "TINYINT UNSIGNED", nullable = false)
-	 * private Integer notaHumorPosRefeicoes;
-	 * 
-	 * @Column(name = "peso_atual", nullable = false)
-	 * private float pesoAtual;
-	 * 
-	 * @Column(name = "estatura", nullable = false)
-	 * private float estaturaM;
-	 * 
-	 * @Column(name = "imc", nullable = false)
-	 * private float imc;
-	 * 
-	 * @Column(name = "cb", nullable = false)
-	 * private float cb;
-	 * 
-	 * @Column(name = "dct", nullable = false)
-	 * private float dct;
-	 * 
-	 * @Column(name = "dcb", nullable = false)
-	 * private float dcb;
-	 * 
-	 * @Column(name = "dcse", nullable = false)
-	 * private float dcse;
-	 * 
-	 * @Column(name = "dcsi", nullable = false)
-	 * private float dcsi;
-	 * 
-	 * @Column(name = "somatoria_4_dobras", nullable = false)
-	 * private float somatoria4Dobras;
-	 * 
-	 * @Column(name = "porcentagem_gordura_corporal_somatoria_4_dobras", nullable =
-	 * false)
-	 * private float porcentagemGorduraCorporalSomatoria4Dobras;
-	 * 
-	 * @Column(name = "peso_gordura", nullable = false)
-	 * private float pesoGordura;
-	 * 
-	 * @Column(name = "peso_massa_magra", nullable = false)
-	 * private float pesoMassaMagra;
-	 * 
-	 * @Column(name = "total_agua", nullable = false)
-	 * private float totalAgua;
-	 * 
-	 * @Column(name = "porcentagem_agua_massa_magra", nullable = false)
-	 * private float porcentagemAguaMassaMagra;
-	 * 
-	 * @Column(name = "resistencia", nullable = false)
-	 * private float resistencia;
-	 * 
-	 * @Column(name = "angulo_de_fase", nullable = false)
-	 * private float AnguloDeFase;
-	 * 
-	 * @Column(name = "circunferencia_cintura", nullable = false)
-	 * private float circunferenciaCintura;
-	 * 
-	 * @Column(name = "circunferencia_quadril", nullable = false)
-	 * private float circunferenciaQuadril;
-	 * 
-	 * @Column(name = "circunferencia_panturrilha", nullable = false)
-	 * private float circunferenciaPanturrilha;
-	 * 
-	 * @Column(name = "emap_direita", nullable = false)
-	 * private float emapDireita;
-	 * 
-	 * @Column(name = "emap_esquerda", nullable = false)
-	 * private float emapEsquerda;
-	 * 
-	 * @Column(name = "forca_preencao_manual_esquerda")
-	 * private int forcaPreencaoManualEsquerda;
-	 * 
-	 * @Column(name = "metas")
-	 * private String metas;
-	 */
+	// recordatorio alimentar //
+	
+	@Column(name = "legumes_cenoura")
+	@Enumerated(EnumType.STRING)
+	private Frequencia legumesCenoura;
+	
+	@Column(name = "legumes_beterraba")
+	@Enumerated(EnumType.STRING)
+	private Frequencia legumesBeterraba;
+	
+	@Column(name = "legumes_berinjela")
+	@Enumerated(EnumType.STRING)
+	private Frequencia legumesBerinjela;
+	
+	@Column(name = "legumes_pepino")
+	@Enumerated(EnumType.STRING)
+	private Frequencia legumesPepino;
+	
+	@Column(name = "legumes_abobrinha")
+	@Enumerated(EnumType.STRING)
+	private Frequencia legumesAbobrinha;
+	
+	@Column(name = "legumes_chuchu")
+	@Enumerated(EnumType.STRING)
+	private Frequencia legumesChuchu;
+	
+	@Column(name = "legumes_tomate")
+	@Enumerated(EnumType.STRING)
+	private Frequencia legumesTomate;
+	
+	@Column(name = "verduras_acelga")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasAcelga;
+	
+	@Column(name = "verduras_agriao")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasAgriao;
+	
+	@Column(name = "verduras_alface")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasAlface;
+	
+	@Column(name = "verduras_brocolis")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasBrocolis;
+	
+	@Column(name = "verduras_chicoria")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasChicoria;
+	
+	@Column(name = "verduras_couve_manteiga")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasCouveManteiga;
+	
+	@Column(name = "verduras_couve_flor")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasCouveFlor;
+	
+	@Column(name = "verduras_espinafre")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasEspinafre;
+	
+	@Column(name = "verduras_rucula")
+	@Enumerated(EnumType.STRING)
+	private Frequencia verdurasRucula;
+	
+	@Column(name = "frutas_c_laranja")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCLaranja;
+	
+	@Column(name = "frutas_c_tangerina")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCTangerina;
+	
+	@Column(name = "frutas_c_limao")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCLimao;
+	
+	@Column(name = "frutas_c_abacaxi")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCAbacaxi;
+	
+	@Column(name = "frutas_c_acerola")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCAcerola;
+	
+	@Column(name = "frutas_c_morango")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCMorango;
+	
+	@Column(name = "frutas_c_kiwi")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCKiwi;
+	
+	@Column(name = "frutas_c_maracuja")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutasCMaracuja;
+	
+	@Column(name = "demais_frutas_banana")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasBanana;
+	
+	@Column(name = "demais_frutas_goiaba")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasGoiaba;
+	
+	@Column(name = "demais_frutas_maca")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasMaca;
+	
+	@Column(name = "demais_frutas_mamao")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasMamao;
+	
+	@Column(name = "demais_frutas_manga")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasManga;
+	
+	@Column(name = "demais_frutas_melancia")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasMelancia;
+	
+	@Column(name = "demais_frutas_melao")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasMelao;
+	
+	@Column(name = "demais_frutas_pera")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasPera;
+	
+	@Column(name = "demais_frutas_pessego")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasPessego;
+	
+	@Column(name = "demais_frutas_uva")
+	@Enumerated(EnumType.STRING)
+	private Frequencia demaisFrutasUva;
+	
+	@Column(name = "leguminosas_feijao")
+	@Enumerated(EnumType.STRING)
+	private Frequencia leguminosasFeijao;
+	
+	@Column(name = "leguminosas_lentilha")
+	@Enumerated(EnumType.STRING)
+	private Frequencia leguminosasLentilha;
+	
+	@Column(name = "leguminosas_ervilha")
+	@Enumerated(EnumType.STRING)
+	private Frequencia leguminosasErvilha;
+	
+	@Column(name = "leguminosas_soja")
+	@Enumerated(EnumType.STRING)
+	private Frequencia leguminosasSoja;
+	
+	@Column(name = "leguminosas_grao_de_bico")
+	@Enumerated(EnumType.STRING)
+	private Frequencia leguminosasGraoDeBico;
+	
+	@Column(name = "leguminosas_vagem")
+	@Enumerated(EnumType.STRING)
+	private Frequencia leguminosasVagem;
+	
+	@Column(name = "carnes_bovina")
+	@Enumerated(EnumType.STRING)
+	private Frequencia carnesBovina;
+	
+	@Column(name = "carnes_suina")
+	@Enumerated(EnumType.STRING)
+	private Frequencia carnesSuina;
+	
+	@Column(name = "carnes_aves")
+	@Enumerated(EnumType.STRING)
+	private Frequencia carnesAves;
+	
+	@Column(name = "carnes_peixe")
+	@Enumerated(EnumType.STRING)
+	private Frequencia carnesPeixe;
+	
+	@Column(name = "frutos_do_mar")
+	@Enumerated(EnumType.STRING)
+	private Frequencia frutosDoMar;
+	
+	@Column(name = "ovo")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ovo;
+	
+	@Column(name = "arroz_branco_polido")
+	@Enumerated(EnumType.STRING)
+	private Frequencia arrozBrancoPolido;
+	
+	@Column(name = "arroz_integral")
+	@Enumerated(EnumType.STRING)
+	private Frequencia arrozIntegral;
+	
+	@Column(name = "lacteos_leite_integral_desnatado_semi")
+	@Enumerated(EnumType.STRING)
+	private Frequencia lacteosLeiteIntegralDesnatadoSemi;
+	
+	@Column(name = "lacteos_leite_sem_lactose")
+	@Enumerated(EnumType.STRING)
+	private Frequencia lacteosLeiteSemLactose;
+	
+	@Column(name = "lacteos_queijos")
+	@Enumerated(EnumType.STRING)
+	private Frequencia lacteosQueijosPedacoOuFatia;
+	
+	@Column(name = "lacteos_iogurtes")
+	@Enumerated(EnumType.STRING)
+	private Frequencia lacteosIogurtes;
+	
+	@Column(name = "cereais_aveia")
+	@Enumerated(EnumType.STRING)
+	private Frequencia cereaisAveia;
+	
+	@Column(name = "cereais_granola_in_natura")
+	@Enumerated(EnumType.STRING)
+	private Frequencia cereaisGranolaInNatura;
+	
+	@Column(name = "cereais_quinoa")
+	@Enumerated(EnumType.STRING)
+	private Frequencia cereaisQuinoa;
+	
+	@Column(name = "cereais_linhaca")
+	@Enumerated(EnumType.STRING)
+	private Frequencia cereaisLinhaca;
+	
+	@Column(name = "cereais_chia")
+	@Enumerated(EnumType.STRING)
+	private Frequencia cereaisChia;
+	
+	@Column(name = "paes_frances_media_normal")
+	@Enumerated(EnumType.STRING)
+	private Frequencia paesFrancesMediaNormal;
+	
+	@Column(name = "paes_frances_media_integral")
+	@Enumerated(EnumType.STRING)
+	private Frequencia paesFrancesMediaIntegral;
+	
+	@Column(name = "paes_forma")
+	@Enumerated(EnumType.STRING)
+	private Frequencia paesForma;
+	
+	@Column(name = "paes_forma_integral")
+	@Enumerated(EnumType.STRING)
+	private Frequencia paesFormaIntegral;
+	
+	@Column(name = "paes_cara")
+	@Enumerated(EnumType.STRING)
+	private Frequencia paesCara;
+	
+	@Column(name = "pastas_requeijao")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasRequeijao;
+	
+	@Column(name = "pastas_margarina")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasMargarina;
+	
+	@Column(name = "pastas_manteiga")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasManteiga;
+	
+	@Column(name = "pastas_ricota")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasRicota;
+	
+	@Column(name = "pastas_cottage")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasCottage;
+	
+	@Column(name = "pastas_doce_de_leite")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasDoceDeLeite;
+	
+	@Column(name = "pastas_creme_de_avela")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasCremeDeAvela;
+	
+	@Column(name = "pastas_geleia")
+	@Enumerated(EnumType.STRING)
+	private Frequencia pastasGeleia;
+	
+	@Column(name = "salgados_mistinho_esfiha")
+	@Enumerated(EnumType.STRING)
+	private Frequencia salgadosMistinhoEsfiha;
+	
+	@Column(name = "salgados_coxinha_croquete")
+	@Enumerated(EnumType.STRING)
+	private Frequencia salgadosCoxinhaCroquete;
+	
+	@Column(name = "salgados_empadas")
+	@Enumerated(EnumType.STRING)
+	private Frequencia salgadosEmpadas;
+	
+	@Column(name = "salgados_pao_de_queijo")
+	@Enumerated(EnumType.STRING)
+	private Frequencia salgadosPaoDeQueijo;
+	
+	@Column(name = "ultraprocessados_salgadinho_de_pacote")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosSalgadinhoDePacote;
+	
+	@Column(name = "ultraprocessados_biscoito_salgado")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosBiscoitoSalgado;
+	
+	@Column(name = "ultraprocessados_biscoito_doce")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosBiscoitoDoce;
+	
+	@Column(name = "ultraprocessados_chocolate")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosChocolate;
+	
+	@Column(name = "ultraprocessados_refrigerante")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosRefrigerante;
+	
+	@Column(name = "ultraprocessados_suco_em_po_caixinha")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosSucoEmPoCaixinha;
+	
+	@Column(name = "ultraprocessados_pratos_prontos_congelados")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosPratosProntosCongelados;
+	
+	@Column(name = "ultraprocessados_macarrao_instantaneo")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosMacarraoInstantaneo;
+	
+	@Column(name = "ultraprocessados_bolinho")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosBolinho;
+	
+	@Column(name = "ultraprocessados_fast_food")
+	@Enumerated(EnumType.STRING)
+	private Frequencia ultraprocessadosFastFood;
+	
+	@Column(name = "embutidos_salame")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosSalame;
+	
+	@Column(name = "embutidos_presunto")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosPresunto;
+	
+	@Column(name = "embutidos_apresuntado_mortadela")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosApresuntadoMortadela;
+	
+	@Column(name = "embutidos_linguica_toscana_calabresa")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosLinguicaToscanaCalabresa;
+	
+	@Column(name = "embutidos_salsicha")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosSalsicha;
+	
+	@Column(name = "embutidos_peito_de_peru")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosPeitoDePeru;
+	
+	@Column(name = "embutidos_rosbife")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosRosbife;
+	
+	@Column(name = "embutidos_nuggets")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosNuggets;
+	
+	@Column(name = "embutidos_hamburguer_tradicional")
+	@Enumerated(EnumType.STRING)
+	private Frequencia embutidosHamburguerTradicional;
+	
+	@Column(name = "acucares_acucar")
+	@Enumerated(EnumType.STRING)
+	private Frequencia acucaresAcucar;
+	
+	@Column(name = "acucares_adocante")
+	@Enumerated(EnumType.STRING)
+	private Frequencia acucaresAdocante;
+	
+	@Column(name = "acucares_mel_melado")
+	@Enumerated(EnumType.STRING)
+	private Frequencia acucaresMelMelado;
+	
+	@Column(name = "acucares_produtos_confeitaria")
+	@Enumerated(EnumType.STRING)
+	private Frequencia acucaresProdutosConfeitaria;
+	
+	@Column(name = "acucares_guloseimas")
+	@Enumerated(EnumType.STRING)
+	private Frequencia acucaresGuloseimas;
+	
+	@Column(name = "acucares_achocolatados")
+	@Enumerated(EnumType.STRING)
+	private Frequencia acucaresAchocolatados;
+	
+	@Column(name = "molhos_ketchup")
+	@Enumerated(EnumType.STRING)
+	private Frequencia molhosKetchup;
+	
+	@Column(name = "molhos_mostarda")
+	@Enumerated(EnumType.STRING)
+	private Frequencia molhosMostarda;
+	
+	@Column(name = "molhos_shoyu")
+	@Enumerated(EnumType.STRING)
+	private Frequencia molhosShoyu;
+	
+	@Column(name = "molhos_tare")
+	@Enumerated(EnumType.STRING)
+	private Frequencia molhosTare;
+	
+	@Column(name = "molhos_maionese")
+	@Enumerated(EnumType.STRING)
+	private Frequencia molhosMaionese;
+	
+	// comportamento alimentar //
 
+	@Column(name = "quem_cozinha")
+	private String quemCozinha;
+	
+	@Column(name = "necessidade_comer_estressado_ansioso_triste")
+	@Enumerated(EnumType.STRING)
+	private Opcao necessidadeComerEstressadoAnsiosoTriste;
+	
+	@Column(name = "realiza_refeicoes_sozinho_acompanhado")
+	@Enumerated(EnumType.STRING)
+	private Companhia realizaRefeicoesSozinhoAcompanhado;
+	
+	@Column(name = "excesso_alimentos_nao_saudaveis_sintomas")
+	private String excessoAlimentosNaoSaudaveisSintomas;
+	
+	@Column(name = "dificuldade_rotina_alimentar_saudavel")
+	private String dificuldadeRotinaAlimentarSaudavel;
+	
+	@Column(name = "necessidade_consolo_alimentar")
+	private Opcao necessidadeConsoloAlimentar;
+	
+	@Column(name = "dificuldade_parar_de_comer")
+	private Opcao dificuldadePararDeComer;
+	
+	@Column(name = "frequencia_fome_fisiologica")
+	private String frequenciaFomeFisiologica;
+	
+	@Column(name = "frequencia_necessidade_emocional_comer")
+	private String frequenciaNecessidadeEmocionalComer;
+	
+	@Column(name = "nao_modificar_plano_alimentar")
+	private String naoModificarPlanoAlimentar;
+	
+	@Column(name = "aversao_alimentar")
+	private String aversaoAlimentar;
+	
+	@Column(name = "tolera_alimentos_proteina_animal")
+	private String toleraAlimentosProteinaAnimal;
+	
+	@Column(name = "alergia_intolerancias_alimentares")
+	private String alergiaIntoleranciasAlimentares;
+	
+	@Column(name = "nota_saciedade_pos_refeicoes", columnDefinition =
+	"TINYINT", nullable = false)
+	private Integer notaSaciedadePosRefeicoes;
+	
+	@Column(name = "nota_humor_pos_refeicoes", columnDefinition =
+	"TINYINT", nullable = false)
+	private Integer notaHumorPosRefeicoes;
+
+	// avaliacao antropometria //
+	
+	@Column(name = "peso_atual")
+	private float pesoAtual;
+	
+	@Column(name = "estatura")
+	private float estaturaM;
+	
+	@Column(name = "imc")
+	private float imc;
+	
+	@Column(name = "cb")
+	private float cb;
+	
+	@Column(name = "dct")
+	private float dct;
+	
+	@Column(name = "dcb")
+	private float dcb;
+	
+	@Column(name = "dcse")
+	private float dcse;
+	
+	@Column(name = "dcsi")
+	private float dcsi;
+	
+	@Column(name = "somatoria_4_dobras")
+	private float somatoria4Dobras;
+	
+	@Column(name = "porcentagem_gordura_corporal_somatoria_4_dobras")
+	private float porcentagemGorduraCorporalSomatoria4Dobras;
+	
+	@Column(name = "peso_gordura")
+	private float pesoGordura;
+	
+	@Column(name = "peso_massa_magra")
+	private float pesoMassaMagra;
+	
+	@Column(name = "total_agua")
+	private float totalAgua;
+	
+	@Column(name = "porcentagem_agua_massa_magra")
+	private float porcentagemAguaMassaMagra;
+	
+	@Column(name = "resistencia")
+	private float resistencia;
+
+	@Column(name = "reactancia")
+	private float reactancia;
+	
+	@Column(name = "angulo_de_fase")
+	private float anguloDeFase;
+	
+	@Column(name = "circunferencia_cintura")
+	private float circunferenciaCintura;
+	
+	@Column(name = "circunferencia_quadril")
+	private float circunferenciaQuadril;
+	
+	@Column(name = "circunferencia_panturrilha")
+	private float circunferenciaPanturrilha;
+	
+	@Column(name = "emap_direita")
+	private float emapDireita;
+	
+	@Column(name = "emap_esquerda")
+	private float emapEsquerda;
+
+	@Column(name = "forca_preencao_manual_direita")
+	private Integer forcaPreencaoManualDireita;
+	
+	@Column(name = "forca_preencao_manual_esquerda")
+	private Integer forcaPreencaoManualEsquerda;
+	
+	// metas para retorno //
+
+	@Column(name = "metas")
+	private String metas;
+	
 	@Column(name = "criado_em", nullable = false)
 	private LocalDate criadoEm;
 
