@@ -70,7 +70,7 @@ public class Anamnese {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "id", nullable = false)
 	private Integer id;
 
 	@Column(name = "paciente_id", nullable = false)
@@ -85,22 +85,22 @@ public class Anamnese {
 	@Column(name = "usuario_nome", length = 60, nullable = false)
 	private String usuarioNome;
 
-	@Column(name = "escolaridade", nullable = false)
+	@Column(name = "escolaridade", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private Escolaridade escolaridade;
 
-	@Column(name = "periodo_estudo", nullable = false)
+	@Column(name = "periodo_estudo", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private Periodo periodoEstudo;
 
-	@Column(name = "lanche_estudo", nullable = false)
+	@Column(name = "lanche_estudo", nullable = true)
 	private Boolean lancheEstudo;
 
-	@Column(name = "periodo_trabalho", nullable = false)
+	@Column(name = "periodo_trabalho", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private Periodo periodoTrabalho;
 
-	@Column(name = "lanche_trabalho", nullable = false)
+	@Column(name = "lanche_trabalho", nullable = true)
 	private Boolean lancheTrabalho;
 
 	@Column(name = "profissao", length = 60)
@@ -108,16 +108,16 @@ public class Anamnese {
 
 	// caracteristicas socioeconomicas //
 
-	@Column(name = "renda_familiar", nullable = false)
+	@Column(name = "renda_familiar", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private FaixaRenda rendaFamiliar;
 
-	@Column(name = "num_pessoas_domicilio", columnDefinition = "TINYINT", nullable = false)
+	@Column(name = "num_pessoas_domicilio", columnDefinition = "TINYINT", nullable = true)
 	private Integer numPessoasDomicilio;
 
 	// hirtoria clinica //
 
-	@Column(name = "motivo", columnDefinition = "TEXT", nullable = false)
+	@Column(name = "motivo", columnDefinition = "TEXT", nullable = true)
 	private String motivo;
 
 	@Column(name = "apresenta_doenca", columnDefinition = "TEXT")
@@ -132,14 +132,14 @@ public class Anamnese {
 	@Column(name = "suplementos_complementos")
 	private String suplementosComplimentos;
 
-	@Column(name = "frequencia_evacuacao", nullable = false)
+	@Column(name = "frequencia_evacuacao", nullable = true)
 	@Enumerated(EnumType.STRING)
 	private FrequenciaEvacuacao frequenciaEvacuacao;
 
-	@Column(name = "consistencia_evacuacao", columnDefinition = "TINYINT", nullable = false)
+	@Column(name = "consistencia_evacuacao", columnDefinition = "TINYINT", nullable = true)
 	private Integer consistenciaEvacuacao;
 
-	@Column(name = "pratica_atv_fisica", nullable = false)
+	@Column(name = "pratica_atv_fisica", nullable = true)
 	private Boolean praticaAtvFisica;
 
 	@Column(name = "atv_fisica")
@@ -626,79 +626,79 @@ public class Anamnese {
 	@Column(name = "alergia_intolerancias_alimentares")
 	private String alergiaIntoleranciasAlimentares;
 
-	@Column(name = "nota_saciedade_pos_refeicoes", columnDefinition = "TINYINT", nullable = false)
+	@Column(name = "nota_saciedade_pos_refeicoes", columnDefinition = "TINYINT", nullable = true)
 	private Integer notaSaciedadePosRefeicoes;
 
-	@Column(name = "nota_humor_pos_refeicoes", columnDefinition = "TINYINT", nullable = false)
+	@Column(name = "nota_humor_pos_refeicoes", columnDefinition = "TINYINT", nullable = true)
 	private Integer notaHumorPosRefeicoes;
 
 	// avaliacao antropometria //
 
 	@Column(name = "peso_atual")
-	private float pesoAtual;
+	private Float pesoAtual;
 
 	@Column(name = "estatura")
-	private float estaturaM;
+	private Float estaturaM;
 
 	@Column(name = "imc")
-	private float imc;
+	private Float imc;
 
 	@Column(name = "cb")
-	private float cb;
+	private Float cb;
 
 	@Column(name = "dct")
-	private float dct;
+	private Float dct;
 
 	@Column(name = "dcb")
-	private float dcb;
+	private Float dcb;
 
 	@Column(name = "dcse")
-	private float dcse;
+	private Float dcse;
 
 	@Column(name = "dcsi")
-	private float dcsi;
+	private Float dcsi;
 
 	@Column(name = "somatoria_4_dobras")
-	private float somatoria4Dobras;
+	private Float somatoria4Dobras;
 
 	@Column(name = "porcentagem_gordura_corporal_somatoria_4_dobras")
-	private float porcentagemGorduraCorporalSomatoria4Dobras;
+	private Float porcentagemGorduraCorporalSomatoria4Dobras;
 
 	@Column(name = "peso_gordura")
-	private float pesoGordura;
+	private Float pesoGordura;
 
 	@Column(name = "peso_massa_magra")
-	private float pesoMassaMagra;
+	private Float pesoMassaMagra;
 
 	@Column(name = "total_agua")
-	private float totalAgua;
+	private Float totalAgua;
 
 	@Column(name = "porcentagem_agua_massa_magra")
-	private float porcentagemAguaMassaMagra;
+	private Float porcentagemAguaMassaMagra;
 
 	@Column(name = "resistencia")
-	private float resistencia;
+	private Float resistencia;
 
 	@Column(name = "reactancia")
-	private float reactancia;
+	private Float reactancia;
 
 	@Column(name = "angulo_de_fase")
-	private float anguloDeFase;
+	private Float anguloDeFase;
 
 	@Column(name = "circunferencia_cintura")
-	private float circunferenciaCintura;
+	private Float circunferenciaCintura;
 
 	@Column(name = "circunferencia_quadril")
-	private float circunferenciaQuadril;
+	private Float circunferenciaQuadril;
 
 	@Column(name = "circunferencia_panturrilha")
-	private float circunferenciaPanturrilha;
+	private Float circunferenciaPanturrilha;
 
 	@Column(name = "emap_direita")
-	private float emapDireita;
+	private Float emapDireita;
 
 	@Column(name = "emap_esquerda")
-	private float emapEsquerda;
+	private Float emapEsquerda;
 
 	@Column(name = "forca_preencao_manual_direita")
 	private Integer forcaPreencaoManualDireita;
@@ -711,7 +711,7 @@ public class Anamnese {
 	@Column(name = "metas")
 	private String metas;
 
-	@Column(name = "criado_em", nullable = false)
+	@Column(name = "criado_em", nullable = true)
 	private LocalDate criadoEm;
 
 	@PrePersist
