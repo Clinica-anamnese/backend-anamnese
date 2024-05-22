@@ -130,7 +130,7 @@ public class Anamnese {
 	private String medicamentosContinuos;
 
 	@Column(name = "suplementos_complementos")
-	private String suplementosComplimentos;
+	private String suplementosComplementos;
 
 	@Column(name = "frequencia_evacuacao", nullable = true)
 	@Enumerated(EnumType.STRING)
