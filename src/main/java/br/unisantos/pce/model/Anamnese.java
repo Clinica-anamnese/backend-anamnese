@@ -144,7 +144,9 @@ public class Anamnese {
 
 	@Column(name = "atv_fisica")
 	private String atvFisica;
-
+	
+	// recordatorio alimentar //
+	
 	@Column(name = "cafe_da_manha")
 	private String cafeDaManha;
 
@@ -163,7 +165,7 @@ public class Anamnese {
 	@Column(name = "ceia")
 	private String ceia;
 
-	// recordatorio alimentar //
+	// frequencia alimentar //
 
 	@Column(name = "legumes_cenoura", nullable = true)
 	@Enumerated(EnumType.STRING)
@@ -638,7 +640,7 @@ public class Anamnese {
 	private Float pesoAtual;
 
 	@Column(name = "estatura")
-	private Float estaturaM;
+	private Float estatura;
 
 	@Column(name = "imc")
 	private Float imc;
@@ -701,17 +703,17 @@ public class Anamnese {
 	private Float emapEsquerda;
 
 	@Column(name = "forca_preencao_manual_direita")
-	private Integer forcaPreencaoManualDireita;
+	private Float forcaPreencaoManualDireita;
 
 	@Column(name = "forca_preencao_manual_esquerda")
-	private Integer forcaPreencaoManualEsquerda;
+	private Float forcaPreencaoManualEsquerda;
 
 	// metas para retorno //
 
 	@Column(name = "metas")
 	private String metas;
 
-	@Column(name = "criado_em", nullable = true)
+	@Column(name = "criado_em", nullable = false)
 	private LocalDate criadoEm;
 
 	@PrePersist

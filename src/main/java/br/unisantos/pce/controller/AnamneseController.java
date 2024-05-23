@@ -83,17 +83,20 @@ public class AnamneseController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Anamnese> alterarAnamnese (@PathVariable Integer id, @RequestBody Anamnese anamneseAtualizado) {
-		// Optional<Anamnese> anamnese = anamneseService.consultarAnamnese(id);
+	public ResponseEntity<Anamnese> alterarAnamnese (@PathVariable Integer id, @RequestBody @Valid Anamnese anamneseAtualizado) {
+		Optional<Paciente> paciente = pacienteService.consultarPaciente(anamneseAtualizado.getPacienteId());
+		Optional<User> usuario = userService.consultarUsuarioPorId(anamneseAtualizado.getUsuarioId());
+		Optional<Anamnese> anamnese = anamneseService.consultarAnamnese(id);
 
-		/* if (anamnese.isPresent()) {
-			anamnese.get().setNome(anamneseAtualizado.getNome());
-			anamnese.get().setSexo(anamneseAtualizado.getSexo());
-			anamnese.get().setDataNascimento(anamneseAtualizado.getDataNascimento());
-			anamneseService.alterarAnamnese(anamnese.get());
-			return ResponseEntity.status(204).build();
-		} */
-
+		if (anamnese.isPresent() && paciente.isPresent() && usuario.isPresent()) {
+			anamneseAtualizado.setId(id);
+			anamneseAtualizado.setPacienteNome(paciente.get().getNome());
+			anamneseAtualizado.setUsuarioNome(usuario.get().getNome());
+			anamneseAtualizado.setCriadoEm(anamnese.get().getCriadoEm());;
+			anamneseService.alterarAnamnese(anamneseAtualizado);
+			return ResponseEntity.status(HttpStatus.CREATED).body(anamneseAtualizado);
+		}
+		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 

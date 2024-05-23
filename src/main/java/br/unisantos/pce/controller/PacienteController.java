@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
+import br.unisantos.pce.model.Anamnese;
 import br.unisantos.pce.model.Paciente;
+import br.unisantos.pce.service.AnamneseService;
 import br.unisantos.pce.service.PacienteService;
 
 @RestController
@@ -26,10 +28,12 @@ import br.unisantos.pce.service.PacienteService;
 public class PacienteController {
     
     private final PacienteService pacienteService;
+    private final AnamneseService anamneseService;
 
     @Autowired
-    public PacienteController(PacienteService pacienteService) {
+    public PacienteController(PacienteService pacienteService, AnamneseService anamneseService) {
         this.pacienteService = pacienteService;
+        this.anamneseService = anamneseService;
     }
 
     @GetMapping
@@ -56,11 +60,21 @@ public class PacienteController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Paciente> alterarPaciente (@PathVariable Integer id, @RequestBody Paciente pacienteAtualizado) {
 		Optional<Paciente> paciente = pacienteService.consultarPaciente(id);
+		List<Anamnese> anamneses = anamneseService.listarAnamnesesByPacienteId(id);
 
 		if (paciente.isPresent()) {
 			paciente.get().setNome(pacienteAtualizado.getNome());
 			paciente.get().setSexo(pacienteAtualizado.getSexo());
 			paciente.get().setDataNascimento(pacienteAtualizado.getDataNascimento());
+			
+			if (!anamneses.isEmpty()) {
+				for (Anamnese anamnese : anamneses) {
+					anamnese.setPacienteId(id);
+					anamnese.setPacienteNome(paciente.get().getNome());
+					anamneseService.alterarAnamnese(anamnese);
+				}
+			}
+			
 			return ResponseEntity.ok(pacienteService.alterarPaciente(paciente.get()));
 		}
 
