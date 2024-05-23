@@ -104,7 +104,7 @@ public class Retorno {
     // bioimpedancia //
 
     @Column(name = "valores_bioimpedancia", nullable = true)
-    private String valoresbioimpedancia;
+    private String valoresBioimpedancia;
 
     @Column(name = "observacoes_bioimpedancia", nullable = true)
     private String observacoesBioimpedancia;
