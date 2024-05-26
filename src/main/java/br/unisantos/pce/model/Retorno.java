@@ -1,6 +1,6 @@
 package br.unisantos.pce.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,6 +50,9 @@ public class Retorno {
     @Column(name = "usuario_nome", length = 60, nullable = false)
     private String usuarioNome;
 
+    @Column(name = "tipo_formulario", nullable = false)
+	private String tipoFormulario = "Retorno";
+
     @Column(name = "retorno", nullable = true)
     private Integer retorno;
 
@@ -85,6 +88,7 @@ public class Retorno {
     private String habitoIntestinal;
 
     @Column(name = "atv_fisica", nullable = true)
+    @Enumerated(EnumType.STRING)
     private atvFisica atvFisica;
 
     @Column(name = "metas_proximo_retorno", nullable = true)
@@ -110,11 +114,11 @@ public class Retorno {
     private String observacoesBioimpedancia;
 
     @Column(name = "criado_em", nullable = false)
-    private LocalDate criadoEm;
+    private LocalDateTime criadoEm;
 
     @PrePersist
     protected void onCreate() {
-        criadoEm = LocalDate.now();
+        criadoEm = LocalDateTime.now();
     }
 
 }

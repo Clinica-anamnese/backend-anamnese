@@ -9,4 +9,5 @@ import br.unisantos.pce.model.Retorno;
 public interface RetornoRepository extends JpaRepository<Retorno, Integer>{
     List<Retorno> findAllByPacienteId(Integer pacienteId);
     List<Retorno> findAllByUsuarioId(Integer usuarioId);
+    List<Retorno> findAllByOrderByCriadoEmDesc();
 }

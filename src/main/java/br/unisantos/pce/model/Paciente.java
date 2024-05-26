@@ -1,6 +1,7 @@
 package br.unisantos.pce.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,11 +43,11 @@ public class Paciente {
     private LocalDate dataNascimento;
 
     @Column(name = "criado_em", nullable = false)
-	private LocalDate criadoEm;
+	private LocalDateTime criadoEm;
 
 	@PrePersist
 	protected void onCreate() {
-		criadoEm = LocalDate.now();
+		criadoEm = LocalDateTime.now();
 	}
 
 }

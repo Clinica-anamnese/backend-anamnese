@@ -1,6 +1,6 @@
 package br.unisantos.pce.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -84,6 +84,9 @@ public class Anamnese {
 
 	@Column(name = "usuario_nome", length = 60, nullable = false)
 	private String usuarioNome;
+
+	@Column(name = "tipo_formulario", nullable = false)
+	private String tipoFormulario = "Anamnese";
 
 	@Column(name = "escolaridade", nullable = true)
 	@Enumerated(EnumType.STRING)
@@ -714,11 +717,11 @@ public class Anamnese {
 	private String metas;
 
 	@Column(name = "criado_em", nullable = false)
-	private LocalDate criadoEm;
+	private LocalDateTime criadoEm;
 
 	@PrePersist
 	protected void onCreate() {
-		criadoEm = LocalDate.now();
+		criadoEm = LocalDateTime.now();
 	}
 
 }

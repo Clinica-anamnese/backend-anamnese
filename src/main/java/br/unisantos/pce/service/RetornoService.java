@@ -20,7 +20,7 @@ public class RetornoService {
     }
 
     public List<Retorno> listarRetornos() {
-        return (List<Retorno>) repository.findAll();
+        return (List<Retorno>) repository.findAllByOrderByCriadoEmDesc();
     }
 
     public List<Retorno> listarRetornosByPacienteId(Integer pacienteId) {

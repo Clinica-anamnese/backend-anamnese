@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import br.unisantos.pce.model.Anamnese;
 import br.unisantos.pce.model.Paciente;
+import br.unisantos.pce.model.Retorno;
 import br.unisantos.pce.service.AnamneseService;
 import br.unisantos.pce.service.PacienteService;
+import br.unisantos.pce.service.RetornoService;
 
 @RestController
 @CrossOrigin("*")
@@ -29,11 +31,13 @@ public class PacienteController {
     
     private final PacienteService pacienteService;
     private final AnamneseService anamneseService;
+	private final RetornoService retornoService;
 
     @Autowired
-    public PacienteController(PacienteService pacienteService, AnamneseService anamneseService) {
+    public PacienteController(PacienteService pacienteService, AnamneseService anamneseService, RetornoService retornoService) {
         this.pacienteService = pacienteService;
         this.anamneseService = anamneseService;
+		this.retornoService = retornoService;
     }
 
     @GetMapping
@@ -59,23 +63,31 @@ public class PacienteController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Paciente> alterarPaciente (@PathVariable Integer id, @RequestBody Paciente pacienteAtualizado) {
-		Optional<Paciente> paciente = pacienteService.consultarPaciente(id);
+		Optional<Paciente> pacienteOptional = pacienteService.consultarPaciente(id);
 		List<Anamnese> anamneses = anamneseService.listarAnamnesesByPacienteId(id);
+		List<Retorno> retornos = retornoService.listarRetornosByPacienteId(id);
 
-		if (paciente.isPresent()) {
-			paciente.get().setNome(pacienteAtualizado.getNome());
-			paciente.get().setSexo(pacienteAtualizado.getSexo());
-			paciente.get().setDataNascimento(pacienteAtualizado.getDataNascimento());
+		if (pacienteOptional.isPresent()) {
+			Paciente paciente = pacienteOptional.get();
+			paciente.setNome(pacienteAtualizado.getNome());
+			paciente.setSexo(pacienteAtualizado.getSexo());
+			paciente.setDataNascimento(pacienteAtualizado.getDataNascimento());
 			
 			if (!anamneses.isEmpty()) {
 				for (Anamnese anamnese : anamneses) {
-					anamnese.setPacienteId(id);
-					anamnese.setPacienteNome(paciente.get().getNome());
+					anamnese.setPacienteNome(paciente.getNome());
 					anamneseService.alterarAnamnese(anamnese);
 				}
 			}
+
+			if (!retornos.isEmpty()) {
+				for (Retorno retorno : retornos) {
+					retorno.setPacienteNome(paciente.getNome());
+					retornoService.alterarRetorno(retorno);
+				}
+			}
 			
-			return ResponseEntity.ok(pacienteService.alterarPaciente(paciente.get()));
+			return ResponseEntity.ok(pacienteService.alterarPaciente(paciente));
 		}
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

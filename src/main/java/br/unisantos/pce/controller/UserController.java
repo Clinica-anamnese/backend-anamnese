@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
+import br.unisantos.pce.model.Anamnese;
+import br.unisantos.pce.model.Retorno;
+import br.unisantos.pce.service.AnamneseService;
+import br.unisantos.pce.service.RetornoService;
 import br.unisantos.pce.service.UserService;
 import br.unisantos.pce.user.User;
 
@@ -28,10 +32,14 @@ import br.unisantos.pce.user.User;
 public class UserController {
     
     private final UserService userService;
+	private final AnamneseService anamneseService;
+	private final RetornoService retornoService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AnamneseService anamneseService, RetornoService retornoService) {
         this.userService = userService;
+		this.anamneseService = anamneseService;
+		this.retornoService = retornoService;
     }
 
     @GetMapping
@@ -64,6 +72,8 @@ public class UserController {
 	@PutMapping("/{id}")
 	public ResponseEntity<User> alterarUsuario (@PathVariable Integer id, @RequestBody Map<String, Object> atributos) {
 		Optional<User> usuarioOptional = userService.consultarUsuarioPorId(id);
+		List<Anamnese> anamneses = anamneseService.listarAnamnesesByUsuarioId(id);
+		List<Retorno> retornos = retornoService.listarRetornosByUsuarioId(id);
 
 		if (usuarioOptional.isPresent()) {
 			User usuario = usuarioOptional.get();
@@ -71,15 +81,31 @@ public class UserController {
 			if (atributos.containsKey("nome")) {
 				usuario.setNome((String) atributos.get("nome"));
 			}
+
 			if (atributos.containsKey("login")) {
 				usuario.setLogin((String) atributos.get("login"));
 			}
+
 			if (atributos.containsKey("password") && atributos.containsKey("passwordConfirm")) {
 				if (atributos.get("password").equals(atributos.get("passwordConfirm"))) {
 					String encryptedPassword = new BCryptPasswordEncoder().encode((String) atributos.get("password"));
 					usuario.setPassword(encryptedPassword);
 				} else {
 					return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+				}
+			}
+
+			if (!anamneses.isEmpty()) {
+				for (Anamnese anamnese : anamneses) {
+					anamnese.setUsuarioNome(usuario.getNome());
+					anamneseService.alterarAnamnese(anamnese);
+				}
+			}
+
+			if (!retornos.isEmpty()) {
+				for (Retorno retorno : retornos) {
+					retorno.setUsuarioNome(usuario.getNome());
+					retornoService.alterarRetorno(retorno);
 				}
 			}
 

@@ -16,7 +16,7 @@ public class UserService {
 	private UserRepository repository;
 
     public List<User> listarUsuarios() {
-		return (List<User>) repository.findAll();
+		return (List<User>) repository.findAllByOrderByCriadoEmDesc();
 	}
 	
 	public Optional<User> consultarUsuarioPorId (Integer id) {

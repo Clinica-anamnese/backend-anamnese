@@ -3,7 +3,7 @@ CREATE TABLE paciente (
     nome VARCHAR(60) NOT NULL,
     sexo ENUM('masculino', 'feminino', 'nao_informado') NOT NULL,
     data_nascimento DATE NOT NULL,
-    criado_em DATE DEFAULT (CURRENT_DATE) NOT NULL
+    criado_em DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL
 );
 
 CREATE TABLE usuario (
@@ -12,7 +12,7 @@ CREATE TABLE usuario (
     matricula VARCHAR(10) NOT NULL UNIQUE,
     senha VARCHAR(60) NOT NULL,
     user_role ENUM('ADMIN', 'USER') NOT NULL,
-    criado_em DATE DEFAULT (CURRENT_DATE) NOT NULL
+    criado_em DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL
 );
 
 CREATE TABLE anamnese (
@@ -21,6 +21,7 @@ CREATE TABLE anamnese (
     paciente_nome VARCHAR(60) NOT NULL,
     usuario_id INT NOT NULL,
     usuario_nome VARCHAR(60) NOT NULL,
+    tipo_formulario VARCHAR(10) DEFAULT 'Anamnese' NOT NULL,
     escolaridade ENUM('fundamental_completo', 'ensino_medio_completo', 'ensino_superior_incompleto', 'ensino_superior_completo', 'outra') NULL,
     periodo_estudo ENUM('manha', 'tarde', 'noite', 'NA') NULL,
     lanche_estudo BOOLEAN NULL,
@@ -188,7 +189,7 @@ CREATE TABLE anamnese (
     forca_preencao_manual_direita FLOAT NULL,
     forca_preencao_manual_esquerda FLOAT NULL,
     metas TEXT NULL,
-    criado_em DATE DEFAULT (CURRENT_DATE) NULL,
+    criado_em DATETIME DEFAULT (CURRENT_TIMESTAMP) NULL,
     FOREIGN KEY (paciente_id) REFERENCES paciente(id),
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
@@ -199,6 +200,7 @@ CREATE TABLE retorno (
     paciente_nome VARCHAR(60) NOT NULL,
     usuario_id INT NOT NULL,
     usuario_nome VARCHAR(60) NOT NULL,
+    tipo_formulario VARCHAR(10) DEFAULT 'Retorno' NOT NULL,
     retorno INT NOT NULL,
     metas_ultima_consulta TEXT NULL,
     comentarios_observacao TEXT NULL,
@@ -217,7 +219,7 @@ CREATE TABLE retorno (
     circunferencia_abdominal FLOAT NULL,
     valores_bioimpedancia TEXT NULL,
     observacoes_bioimpedancia TEXT NULL,
-    criado_em DATE DEFAULT (CURRENT_DATE) NULL,
+    criado_em DATETIME DEFAULT (CURRENT_TIMESTAMP) NULL,
     FOREIGN KEY (paciente_id) REFERENCES paciente(id),
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );

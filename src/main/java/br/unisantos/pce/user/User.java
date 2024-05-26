@@ -1,6 +1,6 @@
 package br.unisantos.pce.user;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -49,11 +49,11 @@ public class User implements UserDetails {
 	private UserRole role;
 
 	@Column(name = "criado_em", nullable = false)
-	private LocalDate criadoEm;
+	private LocalDateTime criadoEm;
 
 	@PrePersist
 	protected void onCreate() {
-		criadoEm = LocalDate.now();
+		criadoEm = LocalDateTime.now();
 	}
 
 	public User(String nome, String login, String password, UserRole role) {

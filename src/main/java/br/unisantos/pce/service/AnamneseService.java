@@ -20,7 +20,7 @@ public class AnamneseService {
     }
 
     public List<Anamnese> listarAnamneses() {
-        return (List<Anamnese>) repository.findAll();
+        return (List<Anamnese>) repository.findAllByOrderByCriadoEmDesc();
     }
 
     public List<Anamnese> listarAnamnesesByPacienteId(Integer pacienteId) {

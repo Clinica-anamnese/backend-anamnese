@@ -20,7 +20,7 @@ public class PacienteService {
 	}
 
     public List<Paciente> listarPacientes() {
-		return (List<Paciente>) repository.findAll();
+		return (List<Paciente>) repository.findAllByOrderByCriadoEmDesc();
 	}
 	
 	public Optional<Paciente> consultarPaciente (Integer id) {
