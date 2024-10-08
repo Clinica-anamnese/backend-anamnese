@@ -31,7 +31,6 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     // insercao do token nas requisicoes
     @Override
-    @SuppressWarnings("null")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
 
