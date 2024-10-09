@@ -30,9 +30,7 @@ public class FormularioService {
         try (CSVPrinter printer = new CSVPrinter(writer,
                 CSVFormat.DEFAULT.builder().setHeader(
                         "id",
-                        "pacienteId",
                         "pacienteNome",
-                        "usuarioId",
                         "usuarioNome",
                         "tipoFormulario",
                         "escolaridade",
@@ -208,9 +206,7 @@ public class FormularioService {
             for (Anamnese anamnese : anamneses) {
                 printer.printRecord(
                         anamnese.getId(),
-                        anamnese.getPacienteId(),
                         anamnese.getPacienteNome(),
-                        anamnese.getUsuarioId(),
                         anamnese.getUsuarioNome(),
                         anamnese.getTipoFormulario(),
                         anamnese.getEscolaridade(),

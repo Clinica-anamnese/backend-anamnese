@@ -117,7 +117,7 @@ public class FormularioController {
         return ResponseEntity.ok(formulariosDoUsuario);
     }
 
-    @GetMapping("/csv")
+    @GetMapping("/export-anamnese")
     public void exportarCsv(HttpServletResponse servletResponse) {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=anamneses.csv");
