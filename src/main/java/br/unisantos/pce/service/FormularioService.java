@@ -26,7 +26,7 @@ public class FormularioService {
 
     public void exportarAnamnesesParaCSV(Writer writer) throws IOException {
         this.anamneses = new ArrayList<Anamnese>(anamneseService.listarAnamneses());
-        
+
         try (CSVPrinter printer = new CSVPrinter(writer,
                 CSVFormat.DEFAULT.builder().setHeader(
                         "id",

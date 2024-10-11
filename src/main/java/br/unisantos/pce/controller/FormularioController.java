@@ -124,9 +124,8 @@ public class FormularioController {
 
         try {
             formularioService.exportarAnamnesesParaCSV(servletResponse.getWriter());
-            System.out.println("CSV gerado com sucesso!");
         } catch (IOException e) {
-            System.err.println("Erro ao gerar o CSV: " + e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
