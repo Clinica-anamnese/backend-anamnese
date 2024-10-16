@@ -11,20 +11,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.unisantos.pce.model.Anamnese;
-// import br.unisantos.pce.model.Retorno;
+import br.unisantos.pce.model.Retorno;
 
 @Service
 public class FormularioService {
     private List<Anamnese> anamneses;
+    private List<Retorno> retornos;
     private AnamneseService anamneseService;
-    // private List<Retorno> retornos;
+    private RetornoService retornoService;
 
     @Autowired
-    public FormularioService(AnamneseService anamneseService) {
+    public FormularioService(AnamneseService anamneseService, RetornoService retornoService) {
         this.anamneseService = anamneseService;
+        this.retornoService = retornoService;
     }
 
-    public void exportarAnamnesesParaCSV(Writer writer) throws IOException {
+    public void exportAnamneseToCSV(Writer writer) throws IOException {
         this.anamneses = new ArrayList<Anamnese>(anamneseService.listarAnamneses());
 
         try (CSVPrinter printer = new CSVPrinter(writer,
@@ -377,6 +379,72 @@ public class FormularioService {
                         anamnese.getForcaPreencaoManualEsquerda(),
                         anamnese.getMetas(),
                         anamnese.getCriadoEm());
+            }
+
+        } catch (IOException e) {
+            throw new IOException("Erro ao gerar o CSV", e);
+        }
+    }
+
+    public void exportRetornoToCSV(Writer writer) throws IOException {
+        this.retornos = new ArrayList<Retorno>(retornoService.listarRetornos());
+
+        try (CSVPrinter printer = new CSVPrinter(writer,
+                CSVFormat.DEFAULT.builder().setHeader(
+                        "id",
+                        "pacienteId",
+                        "pacienteNome",
+                        "usuarioId",
+                        "usuarioNome",
+                        "tipoFormulario",
+                        "retorno",
+                        "metasUltimasConsultas",
+                        "comentariosObservacao",
+                        "metasForamCumpridas",
+                        "desempenhoCumprimentoMetas",
+                        "motivoAssinaladoCumprimentoMetas",
+                        "comoSentiuMudancaHabitos",
+                        "adaptacaoMudancaHabitos",
+                        "motivosDificuldadeAdaptacao",
+                        "sentePrecisaMelhorarAlimentacao",
+                        "habitoIntestinal",
+                        "atvFisica",
+                        "metasProximoRetorno",
+                        "pesoAtual",
+                        "imc",
+                        "circunferenciaAbdominal",
+                        "valoresBioimpedancia",
+                        "observacoesBioimpedancia",
+                        "criadoEm")
+                        .build());) {
+
+            for (Retorno retorno : retornos) {
+                printer.printRecord(
+                        retorno.getId(),
+                        retorno.getPacienteId(),
+                        retorno.getPacienteNome(),
+                        retorno.getUsuarioId(),
+                        retorno.getUsuarioNome(),
+                        retorno.getTipoFormulario(),
+                        retorno.getRetorno(),
+                        retorno.getMetasUltimasConsultas(),
+                        retorno.getComentariosObservacao(),
+                        retorno.getMetasForamCumpridas(),
+                        retorno.getDesempenhoCumprimentoMetas(),
+                        retorno.getMotivoAssinaladoCumprimentoMetas(),
+                        retorno.getComoSentiuMudancaHabitos(),
+                        retorno.getAdaptacaoMudancaHabitos(),
+                        retorno.getMotivosDificuldadeAdaptacao(),
+                        retorno.getSentePrecisaMelhorarAlimentacao(),
+                        retorno.getHabitoIntestinal(),
+                        retorno.getAtvFisica(),
+                        retorno.getMetasProximoRetorno(),
+                        retorno.getPesoAtual(),
+                        retorno.getImc(),
+                        retorno.getCircunferenciaAbdominal(),
+                        retorno.getValoresBioimpedancia(),
+                        retorno.getObservacoesBioimpedancia(),
+                        retorno.getCriadoEm());
             }
 
         } catch (IOException e) {

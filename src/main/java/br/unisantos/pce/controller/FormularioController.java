@@ -118,12 +118,24 @@ public class FormularioController {
     }
 
     @GetMapping("/export-anamnese")
-    public void exportarCsv(HttpServletResponse servletResponse) {
+    public void exportAnamnese(HttpServletResponse servletResponse) {
         servletResponse.setContentType("text/csv");
         servletResponse.addHeader("Content-Disposition", "attachment; filename=anamneses.csv");
 
         try {
-            formularioService.exportarAnamnesesParaCSV(servletResponse.getWriter());
+            formularioService.exportAnamneseToCSV(servletResponse.getWriter());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    @GetMapping("/export-retorno")
+    public void exportRetorno(HttpServletResponse servletResponse) {
+        servletResponse.setContentType("text/csv");
+        servletResponse.addHeader("Content-Disposition", "attachment; filename=anamneses.csv");
+
+        try {
+            formularioService.exportRetornoToCSV(servletResponse.getWriter());
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
