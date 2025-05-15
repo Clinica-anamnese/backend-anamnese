@@ -38,6 +38,9 @@ public class Retorno {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Column(name = "anamnese_id", nullable = false)
+    private Integer anamneseId; 
+
     @Column(name = "paciente_id", nullable = false)
     private Integer pacienteId;
 

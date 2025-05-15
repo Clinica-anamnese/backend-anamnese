@@ -196,6 +196,7 @@ CREATE TABLE anamnese (
 
 CREATE TABLE retorno (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    anamnese_id INT NOT NULL,
     paciente_id INT NOT NULL,
     paciente_nome VARCHAR(60) NOT NULL,
     usuario_id INT NOT NULL,
@@ -220,6 +221,7 @@ CREATE TABLE retorno (
     valores_bioimpedancia TEXT NULL,
     observacoes_bioimpedancia TEXT NULL,
     criado_em DATETIME DEFAULT (CURRENT_TIMESTAMP) NULL,
+    FOREIGN KEY (anamnese_id) REFERENCES anamnese(id),
     FOREIGN KEY (paciente_id) REFERENCES paciente(id),
     FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
