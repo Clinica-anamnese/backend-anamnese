@@ -55,10 +55,7 @@ public class Retorno {
 
     @Column(name = "tipo_formulario", nullable = false)
 	private String tipoFormulario = "Retorno";
-
-    @Column(name = "retorno", nullable = true)
-    private Integer retorno;
-
+    
     @Column(name = "metas_ultima_consulta", nullable = true)
     private String metasUltimasConsultas;
 

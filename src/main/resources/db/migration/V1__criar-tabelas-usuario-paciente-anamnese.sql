@@ -202,7 +202,6 @@ CREATE TABLE retorno (
     usuario_id INT NOT NULL,
     usuario_nome VARCHAR(60) NOT NULL,
     tipo_formulario VARCHAR(10) DEFAULT 'Retorno' NOT NULL,
-    retorno INT NOT NULL,
     metas_ultima_consulta TEXT NULL,
     comentarios_observacao TEXT NULL,
     metas_foram_cumpridas ENUM('sim', 'nao', 'mais_ou_menos') NULL,

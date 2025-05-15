@@ -426,7 +426,6 @@ public class FormularioService {
                         retorno.getUsuarioId(),
                         retorno.getUsuarioNome(),
                         retorno.getTipoFormulario(),
-                        retorno.getRetorno(),
                         retorno.getMetasUltimasConsultas(),
                         retorno.getComentariosObservacao(),
                         retorno.getMetasForamCumpridas(),
