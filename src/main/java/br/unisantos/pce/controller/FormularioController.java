@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.unisantos.pce.model.Anamnese;
@@ -21,6 +22,7 @@ import br.unisantos.pce.model.Retorno;
 import br.unisantos.pce.service.AnamneseService;
 import br.unisantos.pce.service.FormularioService;
 import br.unisantos.pce.service.RetornoService;
+import io.micrometer.common.lang.Nullable;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
@@ -42,8 +44,9 @@ public class FormularioController {
 
     // Retornando anamneses e retornos ordenados pela data de criacao
     @GetMapping
-    public ResponseEntity<List<Object>> listarFormularios() {
-        List<Object> formularios = new ArrayList<>(anamneseService.listarAnamneses());
+    public ResponseEntity<List<Anamnese>> listarFormularios(@RequestParam(required = false, defaultValue = "") String nome) {
+        /*List<Object> formularios = new ArrayList<>(anamneseService.listarAnamneses());
+
         formularios.addAll(retornoService.listarRetornos());
 
         formularios.sort(Comparator.comparing(formulario -> {
@@ -54,9 +57,15 @@ public class FormularioController {
             } else {
                 return LocalDateTime.MIN;
             }
-        }).reversed());
+        }).reversed());*/
 
-        return ResponseEntity.ok(formularios);
+        List<Anamnese> anamneses = anamneseService.listarAnamnesesByPacienteNome(nome);
+
+        for (var anamnese : anamneses) {
+            anamnese.setRetornos(retornoService.listarRetornosByAnamneseId(anamnese.getId()));
+        }
+
+        return ResponseEntity.ok(anamneses);
     }
 
     @GetMapping("/pacientes/{id}")

@@ -10,4 +10,5 @@ public interface RetornoRepository extends JpaRepository<Retorno, Integer>{
     List<Retorno> findAllByPacienteId(Integer pacienteId);
     List<Retorno> findAllByUsuarioId(Integer usuarioId);
     List<Retorno> findAllByOrderByCriadoEmDesc();
+    List<Retorno> findByAnamneseId(Integer anamneseId);
 }

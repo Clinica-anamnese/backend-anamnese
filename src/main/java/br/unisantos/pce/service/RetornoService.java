@@ -31,6 +31,10 @@ public class RetornoService {
         return (List<Retorno>) repository.findAllByUsuarioId(usuarioId);
     }
 
+    public List<Retorno> listarRetornosByAnamneseId(Integer anamneseId) {
+        return (List<Retorno>) repository.findByAnamneseId(anamneseId);
+    }
+
     public Optional<Retorno> consultarRetorno(Integer id) {
         return repository.findById(id);
     }
