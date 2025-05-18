@@ -728,7 +728,4 @@ public class Anamnese {
 
 	@Transient
     private List<Retorno> retornos;
-
-	@Transient
-    private int quantidadeDeRetorno;
 }

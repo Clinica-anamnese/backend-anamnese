@@ -44,29 +44,33 @@ public class FormularioController {
 
     // Retornando anamneses e retornos ordenados pela data de criacao
     @GetMapping
-    public ResponseEntity<List<Anamnese>> listarFormularios(@RequestParam(required = false, defaultValue = "") String nome) {
-        /*List<Object> formularios = new ArrayList<>(anamneseService.listarAnamneses());
+    public ResponseEntity<List<Object>> listarFormularios(@RequestParam(required = true) boolean retornoAgrupado, @RequestParam(required = false, defaultValue = "") String nome) {
+        List<Object> formularios = new ArrayList<>();
+        
+        if(retornoAgrupado) {
+            List<Anamnese> anamneses = anamneseService.listarAnamnesesByPacienteNome(nome);
 
-        formularios.addAll(retornoService.listarRetornos());
-
-        formularios.sort(Comparator.comparing(formulario -> {
-            if (formulario instanceof Anamnese) {
-                return ((Anamnese) formulario).getCriadoEm();
-            } else if (formulario instanceof Retorno) {
-                return ((Retorno) formulario).getCriadoEm();
-            } else {
-                return LocalDateTime.MIN;
+            for (var anamnese : anamneses) {
+                anamnese.setRetornos(retornoService.listarRetornosByAnamneseId(anamnese.getId()));
             }
-        }).reversed());*/
 
-        List<Anamnese> anamneses = anamneseService.listarAnamnesesByPacienteNome(nome);
+            formularios.addAll(anamneses);
+        } else {
+            formularios.addAll(anamneseService.listarAnamneses());
+            formularios.addAll(retornoService.listarRetornos());
 
-        for (var anamnese : anamneses) {
-            anamnese.setRetornos(retornoService.listarRetornosByAnamneseId(anamnese.getId()));
-            anamnese.setQuantidadeDeRetorno(anamnese.getRetornos() == null ? 0 : anamnese.getRetornos().size());
+            formularios.sort(Comparator.comparing(formulario -> {
+                if (formulario instanceof Anamnese) {
+                    return ((Anamnese) formulario).getCriadoEm();
+                } else if (formulario instanceof Retorno) {
+                    return ((Retorno) formulario).getCriadoEm();
+                } else {
+                    return LocalDateTime.MIN;
+                }
+            }).reversed());
         }
 
-        return ResponseEntity.ok(anamneses);
+        return ResponseEntity.ok(formularios);
     }
 
     @GetMapping("/pacientes/{id}")

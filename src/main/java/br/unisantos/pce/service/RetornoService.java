@@ -32,7 +32,7 @@ public class RetornoService {
     }
 
     public List<Retorno> listarRetornosByAnamneseId(Integer anamneseId) {
-        return (List<Retorno>) repository.findByAnamneseId(anamneseId);
+        return (List<Retorno>) repository.findAllByAnamneseIdOrderByCriadoEmDesc(anamneseId);
     }
 
     public Optional<Retorno> consultarRetorno(Integer id) {
