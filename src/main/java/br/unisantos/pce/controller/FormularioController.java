@@ -63,6 +63,7 @@ public class FormularioController {
 
         for (var anamnese : anamneses) {
             anamnese.setRetornos(retornoService.listarRetornosByAnamneseId(anamnese.getId()));
+            anamnese.setQuantidadeDeRetorno(anamnese.getRetornos() == null ? 0 : anamnese.getRetornos().size());
         }
 
         return ResponseEntity.ok(anamneses);
