@@ -1,6 +1,7 @@
 CREATE TABLE paciente (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     nome VARCHAR(60) NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
     sexo ENUM('masculino', 'feminino', 'nao_informado') NOT NULL,
     data_nascimento DATE NOT NULL,
     criado_em DATETIME DEFAULT (CURRENT_TIMESTAMP) NOT NULL

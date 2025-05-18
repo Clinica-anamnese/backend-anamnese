@@ -70,6 +70,7 @@ public class PacienteController {
 		if (pacienteOptional.isPresent()) {
 			Paciente paciente = pacienteOptional.get();
 			paciente.setNome(pacienteAtualizado.getNome());
+			paciente.setCpf(pacienteAtualizado.getCpf());
 			paciente.setSexo(pacienteAtualizado.getSexo());
 			paciente.setDataNascimento(pacienteAtualizado.getDataNascimento());
 			

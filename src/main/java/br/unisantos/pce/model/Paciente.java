@@ -35,6 +35,9 @@ public class Paciente {
     @Column(name = "nome", length = 60, nullable = false)
     private String nome;
 
+    @Column(name = "cpf", length = 11, nullable = false)
+    private String cpf;
+
     @Column(name = "sexo", nullable = false)
     @Enumerated(EnumType.STRING)
     private Sexo sexo;
