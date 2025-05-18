@@ -15,7 +15,7 @@ public interface AnamneseRepository extends JpaRepository<Anamnese, Integer>{
     
     List<Anamnese> findAllByOrderByCriadoEmDesc();
 
-    @Query(value = "SELECT * FROM anamnese WHERE paciente_nome ILIKE CONCAT('%', :nome, '%')", nativeQuery = true)
+    @Query(value = "SELECT * FROM anamnese WHERE UPPER(paciente_nome) ILIKE CONCAT('%', :nome, '%') ORDER BY criado_em DESC", nativeQuery = true)
     List<Anamnese> findByPacienteNome(@Param("nome") String pacienteNome);
 
 }

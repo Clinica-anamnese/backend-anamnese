@@ -22,6 +22,10 @@ public class PacienteService {
     public List<Paciente> listarPacientes() {
 		return (List<Paciente>) repository.findAllByOrderByCriadoEmDesc();
 	}
+
+	public List<Paciente> listarPacientesPorNome(String nome) {
+		return (List<Paciente>) repository.findByNomeOrderByCriadoEmDesc(nome.toUpperCase());
+	}
 	
 	public Optional<Paciente> consultarPaciente (Integer id) {
 		return repository.findById(id);

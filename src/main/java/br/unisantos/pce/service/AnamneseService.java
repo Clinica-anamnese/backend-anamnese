@@ -28,7 +28,7 @@ public class AnamneseService {
     }
 
     public List<Anamnese> listarAnamnesesByPacienteNome(String pacienteNome) {
-        return (List<Anamnese>) repository.findByPacienteNome(pacienteNome);
+        return (List<Anamnese>) repository.findByPacienteNome(pacienteNome.toUpperCase());
     }
 
     public List<Anamnese> listarAnamnesesByUsuarioId(Integer usuarioId) {
