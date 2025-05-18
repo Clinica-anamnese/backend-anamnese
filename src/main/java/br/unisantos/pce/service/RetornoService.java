@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.unisantos.pce.model.Anamnese;
 import br.unisantos.pce.model.Retorno;
 import br.unisantos.pce.repository.RetornoRepository;
 
@@ -29,6 +30,10 @@ public class RetornoService {
 
     public List<Retorno> listarRetornosByUsuarioId(Integer usuarioId) {
         return (List<Retorno>) repository.findAllByUsuarioId(usuarioId);
+    }
+
+    public List<Retorno> listarRetornosByPacienteNome(String pacienteNome) {
+        return (List<Retorno>) repository.findByPacienteNome(pacienteNome.toUpperCase());
     }
 
     public List<Retorno> listarRetornosByAnamneseId(Integer anamneseId) {
