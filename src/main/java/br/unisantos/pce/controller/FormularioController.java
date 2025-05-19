@@ -112,32 +112,14 @@ public class FormularioController {
     }
 
     @GetMapping("/pacientes/{id}")
-    public ResponseEntity<List<Object>> listarFormulariosDoPaciente(@PathVariable Integer id) {
-        List<Object> formularios = new ArrayList<>(anamneseService.listarAnamneses());
-        formularios.addAll(retornoService.listarRetornos());
+    public ResponseEntity<List<Anamnese>> listarFormulariosDoPaciente(@PathVariable Integer id) {
+        List<Anamnese> anamneses = anamneseService.listarAnamnesesByPacienteId(id);
+        
+        for (var anamnese : anamneses) {
+            anamnese.setRetornos(retornoService.listarRetornosByAnamneseId(anamnese.getId()));
+        }
 
-        List<Object> formulariosDoPaciente = formularios.stream()
-                .filter(formulario -> {
-                    if (formulario instanceof Anamnese) {
-                        return ((Anamnese) formulario).getPacienteId().equals(id);
-                    } else if (formulario instanceof Retorno) {
-                        return ((Retorno) formulario).getPacienteId().equals(id);
-                    } else {
-                        return false;
-                    }
-                })
-                .sorted(Comparator.comparing(formulario -> {
-                    if (formulario instanceof Anamnese) {
-                        return ((Anamnese) formulario).getCriadoEm();
-                    } else if (formulario instanceof Retorno) {
-                        return ((Retorno) formulario).getCriadoEm();
-                    } else {
-                        return LocalDateTime.MIN;
-                    }
-                }).reversed())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(formulariosDoPaciente);
+        return ResponseEntity.ok(anamneses);
     }
 
     @GetMapping("/usuarios/{id}")

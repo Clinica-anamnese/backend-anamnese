@@ -9,7 +9,9 @@ import org.springframework.data.repository.query.Param;
 import br.unisantos.pce.model.Anamnese;
 
 public interface AnamneseRepository extends JpaRepository<Anamnese, Integer>{
-    List<Anamnese> findAllByPacienteId(Integer pacienteId);
+
+    @Query(value = "SELECT * FROM anamnese WHERE paciente_id = id ORDER BY criado_em DESC", nativeQuery = true)
+    List<Anamnese> findAllByPacienteId(@Param("id") Integer pacienteId);
     
     List<Anamnese> findAllByUsuarioId(Integer usuarioId);
     
