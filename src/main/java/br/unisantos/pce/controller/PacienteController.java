@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import br.unisantos.pce.model.Anamnese;
@@ -41,8 +42,8 @@ public class PacienteController {
     }
 
     @GetMapping
-	public ResponseEntity<List<Paciente>> listarPacientes() {
-		return ResponseEntity.ok(pacienteService.listarPacientes());
+	public ResponseEntity<List<Paciente>> listarPacientes(@RequestParam(required = false, defaultValue = "") String nome) {
+		return ResponseEntity.ok(pacienteService.listarPacientesPorNome(nome));
 	}
 	
 	@GetMapping("/{id}")

@@ -27,6 +27,10 @@ public class AnamneseService {
         return (List<Anamnese>) repository.findAllByPacienteId(pacienteId);
     }
 
+    public List<Anamnese> listarAnamnesesByPacienteNome(String pacienteNome) {
+        return (List<Anamnese>) repository.findByPacienteNome(pacienteNome.toUpperCase());
+    }
+
     public List<Anamnese> listarAnamnesesByUsuarioId(Integer usuarioId) {
         return (List<Anamnese>) repository.findAllByUsuarioId(usuarioId);
     }
