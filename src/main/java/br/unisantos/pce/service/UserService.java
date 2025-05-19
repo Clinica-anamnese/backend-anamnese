@@ -18,6 +18,10 @@ public class UserService {
     public List<User> listarUsuarios() {
 		return (List<User>) repository.findAllByOrderByCriadoEmDesc();
 	}
+
+	public List<User> listarUsuariosPorNomeOuMatricula(String nome) {
+		return (List<User>) repository.findAllByNomeOrMatriculaOrderByCriadoEmDesc(nome);
+	}
 	
 	public Optional<User> consultarUsuarioPorId (Integer id) {
 		return repository.findById(id);

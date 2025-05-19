@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import br.unisantos.pce.model.Anamnese;
@@ -43,8 +44,8 @@ public class UserController {
     }
 
     @GetMapping
-	public ResponseEntity<List<User>> listarUsuarios() {
-		return ResponseEntity.ok(userService.listarUsuarios());
+	public ResponseEntity<List<User>> listarUsuarios(@RequestParam(required = false, defaultValue = "") String nome) {
+		return ResponseEntity.ok(userService.listarUsuariosPorNomeOuMatricula(nome));
 	}
 
 	
