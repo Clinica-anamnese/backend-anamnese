@@ -1,11 +1,13 @@
-FROM maven:3.9.6-eclipse-temurin-17-alpine AS build
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-COPY . /usr/src/app/
-RUN mvn clean package
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-alpine
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-COPY --from=build /usr/src/app/target/pce.jar pce.jar
-CMD ["java", "-jar", "pce.jar"]
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=build /app/target/pce.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
