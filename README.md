@@ -5,8 +5,6 @@
 <br/>
 
 ## CONFIGURAÇÕES
-<br/>
-
 ### INICIAR PROGRAMA LOCALMENTE
 
 É necessário instalar o **JDK (versão 17+)** e o **Maven (versão 3.9+)** - para compilar e iniciar localmente.
