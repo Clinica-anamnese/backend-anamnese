@@ -24,3 +24,18 @@
 <p>O Banco de Dados SQL padrão ao iniciar localmente (modo dev) é o H2 Database - banco local in-memory.</p>
 <p>Após compilar e iniciar o programa novamente, os dados armazenados anteriormente são excluídos.</p>
 <p>É possível alterar nos arquivos: <strong>application-dev.yaml</strong> e <strong>application-prod.yaml</strong></p>
+
+<br/>
+
+### DOCKER
+
+
+**Gerar Imagem**
+
+ <p><strong>docker build -t backend-anamnese:x.x .</strong> <em>- x.x é a versão</em>.</p> 
+
+ <br/>
+
+ **Iniciar Container** - Porta 8080
+
+ <p><strong>docker run -d -p 8080:8080 --name backend-container backend-anamnese:x.x</strong> <em>- x.x deve ser igual a versão de imagem gerada</em>.</p> 
